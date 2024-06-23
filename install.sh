@@ -28,13 +28,25 @@ install_basics() {
         yay -S code
     fi
     if yay -Qs jq > /dev/null ; then
-        echo "JQ ist schon installiert."
+        echo "jq ist schon installiert."
     else
         yay -S jq
     fi
 }
 
-get_dotfiles() {
+configure_vs_code() {
+    code --install-extension aaron-bond.better-comments
+    code --install-extension catppuccin.catppuccin-vsc
+    code --install-extension catppuccin.catppuccin-vsc-icons
+    code --install-extension esbenp.prettier-vscode
+    code --install-extension mechatroner.rainbow-csv
+    code --install-extension ms-ceintl.vscode-language-pack-de
+    code --install-extension ms-python.debugpy
+    code --install-extension ms-python.python
+    code --install-extension yzhang.markdown-all-in-one
+}
+
+clone_dotfiles() {
     git clone https://github.com/ImBadAtPickinUsernames/.dotfiles.git
 }
 
@@ -49,10 +61,18 @@ create_symlinks() {
     if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
         sudo rm "$HOME/.config/kitty/kitty.conf"
     fi
+    if [ -f "$HOME/.config/Code - OSS/User/settings.json" ]; then
+        sudo rm "$HOME/.config/Code - OSS/User/settings.json"
+    fi
+    if [ -f "$HOME/.config/Code - OSS/User/keybindings.json" ]; then
+        sudo rm "$HOME/.config/Code - OSS/User/keybindings.json"
+    fi
     # Anschließend durch Symlink ersetzen
     ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
     ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
-    ln -s "$HOME/.dotfiles/.kitty" "$HOME/.config/kitty/kitty.conf"
+    ln -s "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+    ln -s "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
+    ln -s "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
 }
 
 install_standard_packages() {
@@ -114,18 +134,6 @@ install_standard_packages() {
     fi
 }
 
-configure_vs_code() {
-    code --install-extension aaron-bond.better-comments
-    code --install-extension catppuccin.catppuccin-vsc
-    code --install-extension catppuccin.catppuccin-vsc-icons
-    code --install-extension esbenp.prettier-vscode
-    code --install-extension mechatroner.rainbow-csv
-    code --install-extension ms-ceintl.vscode-language-pack-de
-    code --install-extension ms-python.debugpy
-    code --install-extension ms-python.python
-    code --install-extension yzhang.markdown-all-in-one
-}
-
 configure_spotify() {
     git clone https://github.com/catppuccin/spicetify.git
     cp -r spicetify/catppuccin ~/.config/spicetify/Themes/
@@ -158,10 +166,18 @@ else
     echo "Die wichtigsten Programme werden nicht installiert."
 fi
 
+# VS Code einrichten
+read -r -p "Möchtest du VSCode einrichten? [Y|N] " configresponse
+if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
+    configure_vs_code
+else
+    echo "VSCode wird nicht eingerichtet."
+fi
+
 # Dotfiles clonen
 read -r -p "Möchtest du deine Dotfiles klonen? [Y|N] " configresponse
 if [[ $configresponse =~ ^(y|yes|Y) ]];then
-    get_dotfiles
+    clone_dotfiles
 else
     echo "Die Dotfiles werden nicht geklont."
 fi
@@ -180,14 +196,6 @@ if [[ $configresponse =~ ^(y|yes|Y) ]];then
     install_standard_packages
 else
     echo "Die restlichen Programme werden nicht installiert."
-fi
-
-# VS Code einrichten
-read -r -p "Möchtest du VSCode einrichten? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
-    configure_vs_code
-else
-    echo "VSCode wird nicht eingerichtet."
 fi
 
 # Spotify einrichten
