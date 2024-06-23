@@ -85,6 +85,14 @@ install_standard_packages() {
 }
 
 create_symlinks() {
+    # Wenn Datei bereits existiert dann löschen
+    if [ -f "$HOME/.bashrc" ]; then
+        sudo rm "$HOME/.bashrc"
+    fi
+    if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
+        sudo rm "$HOME/.config/kitty/kitty.conf"
+    fi
+    # Anschließend durch Symlink ersetzen
     ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
     ln -s "$HOME/.dotfiles/.kitty" "$HOME/.config/kitty/kitty.conf"
 }
