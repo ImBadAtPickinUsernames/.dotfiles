@@ -1,7 +1,12 @@
 #!/bin/bash
 
-install_standard_packages() {
+install_basics() {
     yay --save --answerclean N --answerdiff N
+    if yay -Qs git > /dev/null ; then
+        echo "git ist schon installiert."
+    else
+        yay -S git
+    fi
     if yay -Qs firefox > /dev/null ; then
         echo "Firefox ist schon installiert."
     else
@@ -27,6 +32,10 @@ install_standard_packages() {
     else
         yay -S jq
     fi
+}
+
+install_standard_packages() {
+    yay --save --answerclean N --answerdiff N
     if yay -Qs remmina > /dev/null ; then
         echo "Remmina ist schon installiert."
     else
@@ -84,8 +93,15 @@ install_standard_packages() {
     fi
 }
 
+get_dotfiles() {
+    git clone https://github.com/ImBadAtPickinUsernames/.dotfiles.git
+}
+
 create_symlinks() {
     # Wenn Datei bereits existiert dann löschen
+    if [ -f "$HOME/.gitconfig" ]; then
+        sudo rm "$HOME/.gitconfig"
+    fi
     if [ -f "$HOME/.bashrc" ]; then
         sudo rm "$HOME/.bashrc"
     fi
@@ -93,6 +109,7 @@ create_symlinks() {
         sudo rm "$HOME/.config/kitty/kitty.conf"
     fi
     # Anschließend durch Symlink ersetzen
+    ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
     ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
     ln -s "$HOME/.dotfiles/.kitty" "$HOME/.config/kitty/kitty.conf"
 }
@@ -133,12 +150,36 @@ configure_discord() {
 EOT
 }
 
+# Wichtige Programme installieren
+read -r -p "Möchtest du die wichtigsten Programme installieren? [Y|N] " configresponse
+if [[ $configresponse =~ ^(y|yes|Y) ]];then
+    install_basics
+else
+    echo "Die wichtigsten Programme werden nicht installiert."
+fi
+
+# Dotfiles clonen
+read -r -p "Möchtest du deine Dotfiles klonen? [Y|N] " configresponse
+if [[ $configresponse =~ ^(y|yes|Y) ]];then
+    get_dotfiles
+else
+    echo "Die Dotfiles werden nicht geklont."
+fi
+
+# Symlinks erstellen
+read -r -p "Möchtest du Symlinks erstellen? [Y|N] " configresponse
+if [[ $configresponse =~ ^(y|yes|Y) ]];then
+    create_symlinks
+else
+    echo "Die Symlinks werden nicht erstellt."
+fi
+
 # Standard Programme installieren
-read -r -p "Möchtest du die üblichen Programme installieren? [Y|N] " configresponse
+read -r -p "Möchtest du die restlichen Programme installieren? [Y|N] " configresponse
 if [[ $configresponse =~ ^(y|yes|Y) ]];then
     install_standard_packages
 else
-    echo "Die üblichen Programme werden nicht installiert."
+    echo "Die restlichen Programme werden nicht installiert."
 fi
 
 # VS Code einrichten
