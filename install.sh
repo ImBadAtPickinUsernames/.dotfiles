@@ -176,8 +176,15 @@ EOT
 }
 
 download_wallpapers() {
-    git clone https://github.com/zhichaoh/catppuccin-wallpapers.git
-    mv $HOME/catppuccin-wallpapers $HOME/Bilder/catppuccin-wallpapers
+    git clone https://github.com/zhichaoh/catppuccin-wallpapers.git 
+    mv $HOME/catppuccin-wallpapers $HOME/Bilder/catppuccin-wallpapers catppuccin-wallpapers
+}
+
+configure_kde() {
+    git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde
+    mv $HOME/catppuccin-kde $HOME/Dokumente/catppuccin-kde
+    cd $HOME/Dokumente/catppuccin-kde
+    ./install.sh
 }
 
 # Wichtige Programme installieren
@@ -249,3 +256,9 @@ else
     echo "Wallpaper werden nicht gedownloaded und hinterlegt."
 fi
 
+# KDE einrichten
+read -r -p "Möchtest du KDE einrichten? [Y|N] " configresponse
+    configure_kde
+else
+    echo "KDE wird nicht eingerichtet."
+fi
