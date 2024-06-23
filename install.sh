@@ -163,3 +163,4 @@ read -r -p "Möchtest du BetterDiscord einrichten? [Y|N] " configresponse
 else
     echo "BetterDiscord wird nicht eingerichtet."
 fi
+ 
