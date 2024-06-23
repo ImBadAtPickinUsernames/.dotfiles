@@ -1,11 +1,5 @@
 #!/bin/bash
 
-
-create_symlinks() {
-    ln -s "~/.dotfiles/.bashrc" "~/.bashrc"
-}
-
-
 install_standard_packages() {
     yay --save --answerclean N --answerdiff N
     if yay -Qs firefox > /dev/null ; then
@@ -88,6 +82,11 @@ install_standard_packages() {
     else
         yay -S android-studio
     fi
+}
+
+create_symlinks() {
+    ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
+    ln -s "$HOME/.dotfiles/.kitty" "$HOME/.config/kitty/kitty.conf"
 }
 
 configure_vs_code() {
