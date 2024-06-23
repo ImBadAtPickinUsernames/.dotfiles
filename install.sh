@@ -34,6 +34,27 @@ install_basics() {
     fi
 }
 
+get_dotfiles() {
+    git clone https://github.com/ImBadAtPickinUsernames/.dotfiles.git
+}
+
+create_symlinks() {
+    # Wenn Datei bereits existiert dann löschen
+    if [ -f "$HOME/.gitconfig" ]; then
+        sudo rm "$HOME/.gitconfig"
+    fi
+    if [ -f "$HOME/.bashrc" ]; then
+        sudo rm "$HOME/.bashrc"
+    fi
+    if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
+        sudo rm "$HOME/.config/kitty/kitty.conf"
+    fi
+    # Anschließend durch Symlink ersetzen
+    ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
+    ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
+    ln -s "$HOME/.dotfiles/.kitty" "$HOME/.config/kitty/kitty.conf"
+}
+
 install_standard_packages() {
     yay --save --answerclean N --answerdiff N
     if yay -Qs remmina > /dev/null ; then
@@ -91,27 +112,6 @@ install_standard_packages() {
     else
         yay -S android-studio
     fi
-}
-
-get_dotfiles() {
-    git clone https://github.com/ImBadAtPickinUsernames/.dotfiles.git
-}
-
-create_symlinks() {
-    # Wenn Datei bereits existiert dann löschen
-    if [ -f "$HOME/.gitconfig" ]; then
-        sudo rm "$HOME/.gitconfig"
-    fi
-    if [ -f "$HOME/.bashrc" ]; then
-        sudo rm "$HOME/.bashrc"
-    fi
-    if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
-        sudo rm "$HOME/.config/kitty/kitty.conf"
-    fi
-    # Anschließend durch Symlink ersetzen
-    ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
-    ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
-    ln -s "$HOME/.dotfiles/.kitty" "$HOME/.config/kitty/kitty.conf"
 }
 
 configure_vs_code() {
