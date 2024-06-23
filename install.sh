@@ -138,6 +138,19 @@ install_standard_packages() {
     fi
 }
 
+install_fonts() {
+    if yay -Qs ttf-roboto > /dev/null ; then
+        echo "Roboto ist schon installiert."
+    else
+        yay -S ttf-roboto
+    fi
+    if yay -Qs ttf-jetbrains-mono-nerd > /dev/null ; then
+        echo "JetBrains Nerd Font ist schon installiert."
+    else
+        yay -S ttf-jetbrains-mono-nerd
+    fi
+}
+
 configure_spotify() {
     git clone https://github.com/catppuccin/spicetify.git
     cp -r spicetify/catppuccin ~/.config/spicetify/Themes/
@@ -160,6 +173,11 @@ configure_discord() {
     cat << 'EOT' > ~/.config/BetterDiscord/data/stable/custom.css 
 @import url("https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css");
 EOT
+}
+
+download_wallpapers() {
+    git clone https://github.com/zhichaoh/catppuccin-wallpapers.git
+    mv $HOME/catppuccin-wallpapers $HOME/Bilder/catppuccin-wallpapers
 }
 
 # Wichtige Programme installieren
@@ -202,6 +220,13 @@ else
     echo "Die restlichen Programme werden nicht installiert."
 fi
 
+# Fonts downloaden
+read -r -p "Möchtest du Fonts installieren? [Y|N] " configresponse
+    install_fonts
+else
+    echo "Fonts werden nicht installiert."
+fi
+
 # Spotify einrichten
 read -r -p "Möchtest du Spicetify einrichten? [Y|N] " configresponse
 if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
@@ -216,4 +241,11 @@ read -r -p "Möchtest du BetterDiscord einrichten? [Y|N] " configresponse
 else
     echo "BetterDiscord wird nicht eingerichtet."
 fi
- 
+
+# Wallpaper downloaden
+read -r -p "Möchtest du Wallpaper downloaden und hinterlegen? [Y|N] " configresponse
+    download_wallpapers
+else
+    echo "Wallpaper werden nicht gedownloaded und hinterlegt."
+fi
+
