@@ -3,5 +3,6 @@
     "workbench.colorTheme": "Catppuccin Mocha",
     "workbench.startupEditor": "none",
     "security.workspace.trust.untrustedFiles": "open",
-    "git.confirmSync": false
+    "git.confirmSync": false,
+    "editor.fontFamily": "'JetBrainsMono Nerd Font', 'monospace', monospace"
 }
