@@ -58,6 +58,9 @@ create_symlinks() {
     if [ -f "$HOME/.bashrc" ]; then
         sudo rm "$HOME/.bashrc"
     fi
+    if [ -f "$HOME/.config/neofetch/neofetch.conf" ]; then
+        sudo rm "$HOME/.config/neofetch/neofetch.conf"
+    fi
     if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
         sudo rm "$HOME/.config/kitty/kitty.conf"
     fi
@@ -70,6 +73,7 @@ create_symlinks() {
     # Anschließend durch Symlink ersetzen
     ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
     ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
+    ln -s "$HOME/.dotfiles/.config/neofetch/neofetch.conf" "$HOME/.config/neofetch/neofetch.conf"
     ln -s "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
     ln -s "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
     ln -s "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
