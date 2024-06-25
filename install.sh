@@ -12,11 +12,6 @@ clone_dotfiles() {
 
 install_basics() {
     yay --save --answerclean N --answerdiff N
-    if yay -Qs firefox > /dev/null ; then
-        echo "Firefox ist schon installiert."
-    else
-        yay -S firefox
-    fi
     if yay -Qs neofetch > /dev/null ; then
         echo "Neofetch ist schon installiert."
     else
@@ -36,6 +31,11 @@ install_basics() {
         echo "jq ist schon installiert."
     else
         yay -S jq
+    fi
+    if yay -Qs firefox > /dev/null ; then
+        echo "Firefox ist schon installiert."
+    else
+        yay -S firefox
     fi
 }
 
@@ -181,6 +181,15 @@ download_wallpapers() {
     mv $HOME/catppuccin-wallpapers $HOME/Bilder/catppuccin-wallpapers catppuccin-wallpapers
 }
 
+make_directories() {
+    if [ -f "$HOME/workspace" ]; then
+        echo "$HOME/workspace existiert bereits."
+    else
+        echo "$HOME/workspace wird angelegt."
+        mkdir $HOME/workspace
+    fi
+}
+
 configure_kde() {
     git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde
     mv $HOME/catppuccin-kde $HOME/Dokumente/catppuccin-kde
@@ -255,6 +264,13 @@ read -r -p "Möchtest du Wallpaper downloaden und hinterlegen? [Y|N] " configres
     download_wallpapers
 else
     echo "Wallpaper werden nicht gedownloaded und hinterlegt."
+fi
+
+# Ordner Strukturen einrichten
+read -r -p "Möchtest du Ordner Strukturen erstellen? [Y|N] " configresponse
+    make_directories
+else
+    echo "Ordner Strukturen werden nicht erstellt."
 fi
 
 # KDE einrichten
