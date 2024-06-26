@@ -120,6 +120,11 @@ install_fonts() {
     else
         yay -S ttf-jetbrains-mono-nerd
     fi
+    if yay -Qs ttf-jetbrains-mono > /dev/null ; then
+        echo "JetBrains Font ist schon installiert."
+    else
+        yay -S ttf-jetbrains-mono
+    fi
 }
 
 create_symlinks() {
@@ -185,7 +190,7 @@ install_spicetify_catppuccin() {
 install_spicetify_text_catppuccin() {
     # Hole spicetify-themes
     git clone --depth=1 https://github.com/spicetify/spicetify-themes.git 
-    cp -r HOME/spicetify-themes/* $HOME/.config/spicetify/Themes
+    cp -r $HOME/spicetify-themes/* $HOME/.config/spicetify/Themes
     rm -rf $HOME/spicetify-themes
     # Jetzt Spotify öffnen und einloggen damit prefs file generiert wird
     echo "Bitte Spotify öffnen und einloggen damit die Einstellungs Datei von Spotify generiert wird."
