@@ -1,15 +1,5 @@
 #!/bin/bash
 
-clone_dotfiles() {
-    yay --save --answerclean N --answerdiff N
-    if yay -Qs git > /dev/null ; then
-        echo "git ist schon installiert."
-    else
-        yay -S git
-    fi
-    git clone https://github.com/ImBadAtPickinUsernames/.dotfiles.git
-}
-
 install_basics() {
     yay --save --answerclean N --answerdiff N
     if yay -Qs neofetch > /dev/null ; then
@@ -49,6 +39,15 @@ install_vs_code_extensions() {
     code --install-extension ms-python.debugpy
     code --install-extension ms-python.python
     code --install-extension yzhang.markdown-all-in-one
+    # Erstelle Symlinks
+    if [ -f "$HOME/.config/Code - OSS/User/settings.json" ]; then
+        sudo rm "$HOME/.config/Code - OSS/User/settings.json"
+    fi
+    if [ -f "$HOME/.config/Code - OSS/User/keybindings.json" ]; then
+        sudo rm "$HOME/.config/Code - OSS/User/keybindings.json"
+    fi
+    ln -s "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
+    ln -s "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
 }
 
 install_standard_packages() {
@@ -131,22 +130,27 @@ create_symlinks() {
     if [ -f "$HOME/.bashrc" ]; then
         sudo rm "$HOME/.bashrc"
     fi
+    ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
+    ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
     # neofetch
     if [ -f "$HOME/.config/neofetch/config.conf" ]; then
         sudo rm "$HOME/.config/neofetch/config.conf"
     fi
+    ln -s "$HOME/.dotfiles/.config/neofetch/config.conf" "$HOME/.config/neofetch/config.conf"
     # Kitty
     if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
         sudo rm "$HOME/.config/kitty/kitty.conf"
     fi
-    # VSCode
-    if [ -f "$HOME/.config/Code - OSS/User/settings.json" ]; then
-        sudo rm "$HOME/.config/Code - OSS/User/settings.json"
-    fi
-    if [ -f "$HOME/.config/Code - OSS/User/keybindings.json" ]; then
-        sudo rm "$HOME/.config/Code - OSS/User/keybindings.json"
-    fi
-    # Spicetify
+    ln -s "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+}
+
+configure_spotify() {
+    # Spotify vorbereiten einrichten
+    sudo chmod a+wr /opt/spotify
+    sudo chmod a+wr /opt/spotify/Apps -R
+    # Theme installieren
+    install_spicetify_text_catppuccin
+    # Erstelle Symlinks
     if [ -f "$HOME/.config/spicetify/config-xpui.ini" ]; then
         sudo rm "$HOME/.config/spicetify/config-xpui.ini"
     fi
@@ -156,24 +160,13 @@ create_symlinks() {
     if [ -f "$HOME/.config/spicetify/Themes/text/user.css" ]; then
         sudo rm "$HOME/.config/spicetify/Themes/text/user.css"
     fi
-    # Anschließend durch Symlink ersetzen
-    ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
-    ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
-    ln -s "$HOME/.dotfiles/.config/neofetch/config.conf" "$HOME/.config/neofetch/config.conf"
-    ln -s "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
-    ln -s "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
-    ln -s "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
     ln -s "$HOME/.dotfiles/.config/spicetify/config-xpui.ini" "$HOME/.config/spicetify/config-xpui.ini"
     ln -s "$HOME/.dotfiles/.config/spicetify/Themes/text/color.ini" "$HOME/.config/spicetify/Themes/text/color.ini"
     ln -s "$HOME/.dotfiles/.config/spicetify/Themes/text/user.css" "$HOME/.config/spicetify/Themes/text/user.css"
-}
-
-configure_spotify() {
-    # Spotify vorbereiten einrichten
-    sudo chmod a+wr /opt/spotify
-    sudo chmod a+wr /opt/spotify/Apps -R
-    # Theme installieren
-    install_spicetify_text_catppuccin
+    # Wende neue Config an
+    spicetify restore 
+    spicetify backup 
+    spicetify apply
 }
 
 install_spicetify_catppuccin() {
@@ -229,14 +222,6 @@ configure_kde() {
     cd $HOME/Dokumente/catppuccin-kde
     ./install.sh
 }
-
-# Dotfiles clonen
-read -r -p "Möchtest du deine Dotfiles klonen? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]];then
-    clone_dotfiles
-else
-    echo "Die Dotfiles werden nicht geklont."
-fi
 
 # Wichtige Programme installieren
 read -r -p "Möchtest du die wichtigsten Programme installieren? [Y|N] " configresponse
