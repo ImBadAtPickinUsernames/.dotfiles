@@ -124,24 +124,37 @@ install_fonts() {
 }
 
 create_symlinks() {
-    # Wenn Datei bereits existiert dann löschen
+    # Basics
     if [ -f "$HOME/.gitconfig" ]; then
         sudo rm "$HOME/.gitconfig"
     fi
     if [ -f "$HOME/.bashrc" ]; then
         sudo rm "$HOME/.bashrc"
     fi
+    # neofetch
     if [ -f "$HOME/.config/neofetch/config.conf" ]; then
         sudo rm "$HOME/.config/neofetch/config.conf"
     fi
+    # Kitty
     if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
         sudo rm "$HOME/.config/kitty/kitty.conf"
     fi
+    # VSCode
     if [ -f "$HOME/.config/Code - OSS/User/settings.json" ]; then
         sudo rm "$HOME/.config/Code - OSS/User/settings.json"
     fi
     if [ -f "$HOME/.config/Code - OSS/User/keybindings.json" ]; then
         sudo rm "$HOME/.config/Code - OSS/User/keybindings.json"
+    fi
+    # Spicetify
+    if [ -f "$HOME/.config/spicetify/config-xpui.ini" ]; then
+        sudo rm "$HOME/.config/spicetify/config-xpui.ini"
+    fi
+    if [ -f "$HOME/.config/spicetify/Themes/text/color.ini" ]; then
+        sudo rm "$HOME/.config/spicetify/Themes/text/color.ini"
+    fi
+    if [ -f "$HOME/.config/spicetify/Themes/text/user.css" ]; then
+        sudo rm "$HOME/.config/spicetify/Themes/text/user.css"
     fi
     # Anschließend durch Symlink ersetzen
     ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
@@ -150,22 +163,42 @@ create_symlinks() {
     ln -s "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
     ln -s "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
     ln -s "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
+    ln -s "$HOME/.dotfiles/.config/spicetify/config-xpui.ini" "$HOME/.config/spicetify/config-xpui.ini"
+    ln -s "$HOME/.dotfiles/.config/spicetify/Themes/text/color.ini" "$HOME/.config/spicetify/Themes/text/color.ini"
+    ln -s "$HOME/.dotfiles/.config/spicetify/Themes/text/user.css" "$HOME/.config/spicetify/Themes/text/user.css"
 }
 
 configure_spotify() {
-    git clone https://github.com/catppuccin/spicetify.git
-    cp -r spicetify/catppuccin ~/.config/spicetify/Themes/
-    rm -rf spicetify
+    # Spotify vorbereiten einrichten
     sudo chmod a+wr /opt/spotify
     sudo chmod a+wr /opt/spotify/Apps -R
+    # Theme installieren
+    install_spicetify_text_catppuccin
+}
+
+install_spicetify_catppuccin() {
+    # Spicetify Catppuccin installieren 
+    git clone https://github.com/catppuccin/spicetify.git
+    cp -r spicetify/catppuccin $HOME/.config/spicetify/Themes/
+    rm -rf spicetify
     # Jetzt Spotify öffnen und einloggen damit prefs file generiert wird
     echo "Bitte Spotify öffnen und einloggen damit die Einstellungs Datei von Spotify generiert wird."
     read -p "Drücke [Enter] damit es weitergeht."
     # Warte auf Eingabe
-    spicetify backup apply
-    spicetify config current_theme catppuccin
-    spicetify config color_scheme frappe
-    spicetify config inject_css 1 inject_theme_js 1 replace_colors 1 overwrite_assets 1
+    spicetify backup
+    spicetify apply
+}
+
+install_spicetify_text_catppuccin() {
+    # Hole spicetify-themes
+    git clone --depth=1 https://github.com/spicetify/spicetify-themes.git 
+    cp -r HOME/spicetify-themes/* $HOME/.config/spicetify/Themes
+    rm -rf $HOME/spicetify-themes
+    # Jetzt Spotify öffnen und einloggen damit prefs file generiert wird
+    echo "Bitte Spotify öffnen und einloggen damit die Einstellungs Datei von Spotify generiert wird."
+    read -p "Drücke [Enter] damit es weitergeht."
+    # Warte auf Eingabe
+    spicetify backup 
     spicetify apply
 }
 
