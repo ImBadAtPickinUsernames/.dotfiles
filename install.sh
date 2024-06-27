@@ -38,6 +38,7 @@ install_vs_code_extensions() {
     code --install-extension ms-ceintl.vscode-language-pack-de
     code --install-extension ms-python.debugpy
     code --install-extension ms-python.python
+    code --install-extension naumovs.color-highlight
     code --install-extension yzhang.markdown-all-in-one
     # Erstelle Symlinks
     if [ -f "$HOME/.config/Code - OSS/User/settings.json" ]; then
