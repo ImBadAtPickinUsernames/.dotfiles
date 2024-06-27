@@ -208,8 +208,9 @@ EOT
 }
 
 download_wallpapers() {
-    git clone https://github.com/zhichaoh/catppuccin-wallpapers.git 
-    mv $HOME/catppuccin-wallpapers $HOME/Bilder/catppuccin-wallpapers catppuccin-wallpapers
+    git clone https://github.com/zhichaoh/catppuccin-wallpapers.git catppuccin-wallpapers
+    sudo mkdir $HOME/Bilder/wallpapers
+    mv $HOME/catppuccin-wallpapers $HOME/Bilder/wallpapers
 }
 
 make_directories() {
