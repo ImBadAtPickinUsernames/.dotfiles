@@ -4,5 +4,6 @@
     "workbench.startupEditor": "none",
     "security.workspace.trust.untrustedFiles": "open",
     "git.confirmSync": false,
-    "editor.fontFamily": "'JetBrainsMono Nerd Font', 'monospace', monospace"
+    "editor.fontFamily": "'JetBrainsMono Nerd Font', 'monospace', monospace",
+    "catppuccin.accentColor": "lavender"
 }
