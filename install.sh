@@ -57,8 +57,6 @@ install_standard_packages() {
 	else
 		yay -S betterdiscordctl
 	fi
-<<'###BLOCK-COMMENT'
-	# Folgendes wird erstmal ausgeschlossen
 	if yay -Qs cava > /dev/null ; then
 		echo "cava ist schon installiert."
 	else
@@ -84,7 +82,6 @@ install_standard_packages() {
 	else
 		yay -S android-studio
 	fi
-###BLOCK-COMMENT
 }
 
 install_fonts() {
@@ -229,8 +226,8 @@ configure_discord() {
 
 download_wallpapers() {
 	git clone https://github.com/zhichaoh/catppuccin-wallpapers.git catppuccin-wallpapers
-	mkdir $HOME/Bilder/wallpapers
-	mv $HOME/catppuccin-wallpapers $HOME/Bilder/wallpapers
+	mkdir "$HOME/Bilder/wallpapers"
+	mv "$HOME/catppuccin-wallpapers" "$HOME/Bilder/wallpapers"
 }
 
 make_directories() {
@@ -244,78 +241,78 @@ make_directories() {
 
 configure_kde() {
 	git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde
-	mv $HOME/catppuccin-kde $HOME/Dokumente/catppuccin-kde
-	cd $HOME/Dokumente/catppuccin-kde
+	mv "$HOME/catppuccin-kde $HOME/Dokumente/catppuccin-kde"
+	cd "$HOME/Dokumente/catppuccin-kde"
 	./install.sh
 }
 
 # Wichtige Programme installieren
-read -r -p "Möchtest du die wichtigsten Programme installieren? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]];then
+read -r -p "Möchtest du die wichtigsten Programme installieren? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]];then
 	install_basics
 else
 	echo "Die wichtigsten Programme werden nicht installiert."
 fi
 
 # Fonts installieren
-read -r -p "Möchtest du Fonts installieren? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]];then
+read -r -p "Möchtest du Fonts installieren? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]];then
 	install_fonts
 else
 	echo "Fonts werden nicht installiert."
 fi
 
 # Standart Symlinks erstellen
-read -r -p "Möchtest du die üblichen Symlinks erstellen? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]];then
+read -r -p "Möchtest du die üblichen Symlinks erstellen? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]];then
 	create_basic_symlinks
 else
 	echo "Die Symlinks werden nicht erstellt."
 fi
 
 # Standard Programme installieren
-read -r -p "Möchtest du die restlichen Programme installieren? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]];then
+read -r -p "Möchtest du die restlichen Programme installieren? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]];then
 	install_standard_packages
 else
 	echo "Die restlichen Programme werden nicht installiert."
 fi
 
 # Spotify einrichten
-read -r -p "Möchtest du Spicetify einrichten? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
+read -r -p "Möchtest du Spicetify einrichten? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
 	configure_spotify
 else
 	echo "Spicetify wird nicht eingerichtet."
 fi
 
 # Discord einrichten
-read -r -p "Möchtest du BetterDiscord einrichten? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
+read -r -p "Möchtest du BetterDiscord einrichten? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
 	configure_discord
 else
 	echo "BetterDiscord wird nicht eingerichtet."
 fi
 
 # Wallpaper downloaden
-read -r -p "Möchtest du Wallpaper downloaden und hinterlegen? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
+read -r -p "Möchtest du Wallpaper downloaden und hinterlegen? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
 	download_wallpapers
 else
 	echo "Wallpaper werden nicht gedownloaded und hinterlegt."
 fi
 
 # Ordner Strukturen einrichten
-read -r -p "Möchtest du Ordner Strukturen erstellen? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
+read -r -p "Möchtest du Ordner Strukturen erstellen? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
 	make_directories
 else
 	echo "Ordner Strukturen werden nicht erstellt."
 fi
 
 # KDE einrichten
-read -r -p "Möchtest du KDE einrichten? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
+read -r -p "Möchtest du KDE einrichten? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
 	configure_kde
 	cd
 	ln -s ~/.local/share/icons/ ~/.icons
