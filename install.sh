@@ -215,7 +215,22 @@ install_spicetify_text_catppuccin() {
 
 configure_discord() {
 	betterdiscordctl install
-	cat << 'EOT' > ~/.config/BetterDiscord/data/stable/custom.css 
+	if ! [ -f "$HOME/.config/BetterDiscord" ]; then
+		sudo mkdir "$HOME/.config/BetterDiscord"
+	fi
+	if ! [ -f "$HOME/.config/BetterDiscord/data" ]; then
+		sudo mkdir "$HOME/.config/BetterDiscord/data"
+	fi
+	if ! [ -f "$HOME/.config/BetterDiscord/data/stable" ]; then
+		sudo mkdir "$HOME/.config/BetterDiscord/data/stable"
+	fi
+	if ! [ -f "$HOME/.config/BetterDiscord/data/stable" ]; then
+		sudo mkdir "$HOME/.config/BetterDiscord/data/stable"
+	fi
+	if ! [ -f "$HOME/.config/BetterDiscord/data/stable/custom.css" ]; then
+		touch "$HOME/.config/BetterDiscord/data/stable/custom.css"
+	fi
+	cat << 'EOT' > $HOME/.config/BetterDiscord/data/stable/custom.css
 @import url("https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css");
 EOT
 }
