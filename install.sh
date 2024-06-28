@@ -252,6 +252,7 @@ fi
 
 # Fonts installieren
 read -r -p "Möchtest du Fonts installieren? [Y|N] " configresponse
+if [[ $configresponse =~ ^(y|yes|Y) ]];then
 	install_fonts
 else
 	echo "Fonts werden nicht installiert."
