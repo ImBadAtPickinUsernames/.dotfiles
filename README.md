@@ -1,6 +1,6 @@
 # .dotfiles
 
-Clone repo
+Clone repository
 
 ```shell
 git clone https://github.com/ImBadAtPickinUsernames/.dotfiles.git
