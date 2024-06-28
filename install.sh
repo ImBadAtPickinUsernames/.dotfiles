@@ -230,7 +230,7 @@ configure_discord() {
 	if ! [ -f "$HOME/.config/BetterDiscord/data/stable/custom.css" ]; then
 		touch "$HOME/.config/BetterDiscord/data/stable/custom.css"
 	fi
-	sudo chmod g+w "~/.config/BetterDiscord/data/stable/custom.css"
+	sudo chmod g+w ~/.config/BetterDiscord/data/stable/custom.css
 	cat << 'EOT' > $HOME/.config/BetterDiscord/data/stable/custom.css
 @import url("https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css");
 EOT
