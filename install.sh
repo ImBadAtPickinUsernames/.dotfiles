@@ -14,6 +14,7 @@ install_basics() {
 		yay -S neofetch
 	fi
 	configure_neofetch
+	# Needs reinstall so commandline tool gets installed properly
 	yay -S code
 	configure_vscode
 	if yay -Qs firefox > /dev/null ; then
@@ -130,7 +131,7 @@ configure_vscode() {
 }
 
 configure_kitty() {
-	if [ -d "$HOME/.config/kitty" ]; then
+	if ! [ -d "$HOME/.config/kitty" ]; then
 		mkdir "$HOME/.config/kitty"
 	fi
 	if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
@@ -190,6 +191,12 @@ configure_spotify() {
 install_spicetify_catppuccin() {
 	# Spicetify Catppuccin installieren 
 	git clone https://github.com/catppuccin/spicetify.git
+	if ! [ -d "$HOME/.config/spicetify" ]; then
+		mkdir "$HOME/.config/spicetify"
+	fi
+	if ! [ -d "$HOME/.config/spicetify/Themes" ]; then
+		mkdir "$HOME/.config/spicetify/Themes"
+	fi
 	cp -r spicetify/catppuccin $HOME/.config/spicetify/Themes/
 	rm -rf spicetify
 	# Jetzt Spotify öffnen und einloggen damit prefs file generiert wird
@@ -203,6 +210,12 @@ install_spicetify_catppuccin() {
 install_spicetify_text_catppuccin() {
 	# Hole spicetify-themes
 	git clone --depth=1 https://github.com/spicetify/spicetify-themes.git 
+	if ! [ -d "$HOME/.config/spicetify" ]; then
+		mkdir "$HOME/.config/spicetify"
+	fi
+	if ! [ -d "$HOME/.config/spicetify/Themes" ]; then
+		mkdir "$HOME/.config/spicetify/Themes"
+	fi
 	cp -r "$HOME/spicetify-themes/* $HOME/.config/spicetify/Themes"
 	rm -rf "$HOME/spicetify-themes"
 	# Jetzt Spotify öffnen und einloggen damit prefs file generiert wird
