@@ -188,25 +188,6 @@ configure_spotify() {
 	spicetify apply
 }
 
-install_spicetify_catppuccin() {
-	# Spicetify Catppuccin installieren 
-	git clone https://github.com/catppuccin/spicetify.git
-	if ! [ -d "$HOME/.config/spicetify" ]; then
-		mkdir "$HOME/.config/spicetify"
-	fi
-	if ! [ -d "$HOME/.config/spicetify/Themes" ]; then
-		mkdir "$HOME/.config/spicetify/Themes"
-	fi
-	cp -r spicetify/catppuccin $HOME/.config/spicetify/Themes/
-	rm -rf spicetify
-	# Jetzt Spotify öffnen und einloggen damit prefs file generiert wird
-	echo "Bitte Spotify öffnen und einloggen damit die Einstellungs Datei von Spotify generiert wird."
-	read -p "Drücke [Enter] damit es weitergeht."
-	# Warte auf Eingabe
-	spicetify backup
-	spicetify apply
-}
-
 install_spicetify_text_catppuccin() {
 	# Hole spicetify-themes
 	git clone --depth=1 https://github.com/spicetify/spicetify-themes.git 
@@ -216,7 +197,7 @@ install_spicetify_text_catppuccin() {
 	if ! [ -d "$HOME/.config/spicetify/Themes" ]; then
 		mkdir "$HOME/.config/spicetify/Themes"
 	fi
-	cp -r "$HOME/spicetify-themes/* $HOME/.config/spicetify/Themes"
+	cp -r $HOME/spicetify-themes/* $HOME/.config/spicetify/Themes
 	rm -rf "$HOME/spicetify-themes"
 	# Jetzt Spotify öffnen und einloggen damit prefs file generiert wird
 	echo "Bitte Spotify öffnen und einloggen damit die Einstellungs Datei von Spotify generiert wird."
