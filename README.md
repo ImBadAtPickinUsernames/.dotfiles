@@ -21,3 +21,7 @@ sudo chmod +x $HOME/.dotfiles/install.sh
 $HOME/.dotfiles/install.sh
 
 ```
+### Screenshots
+
+![](https://github.com/ImBadAtPickinUsernames/.dotfiles/raw/master/screenshots/screenshot-1.png)
+![](https://github.com/ImBadAtPickinUsernames/.dotfiles/raw/master/screenshots/screenshot-2.png)
