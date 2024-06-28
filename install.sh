@@ -140,7 +140,7 @@ configure_kitty() {
 }
 
 configure_neofetch() {
-	if [ -f "$HOME/.config/neofetch" ]; then
+	if ! [ -f "$HOME/.config/neofetch" ]; then
 		sudo mkdir "$HOME/.config/neofetch"
 	fi
 	if [ -f "$HOME/.config/neofetch/config.conf" ]; then
