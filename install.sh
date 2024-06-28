@@ -284,6 +284,7 @@ fi
 
 # Discord einrichten
 read -r -p "Möchtest du BetterDiscord einrichten? [Y|N] " configresponse
+if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
 	configure_discord
 else
 	echo "BetterDiscord wird nicht eingerichtet."
@@ -291,6 +292,7 @@ fi
 
 # Wallpaper downloaden
 read -r -p "Möchtest du Wallpaper downloaden und hinterlegen? [Y|N] " configresponse
+if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
 	download_wallpapers
 else
 	echo "Wallpaper werden nicht gedownloaded und hinterlegt."
@@ -298,6 +300,7 @@ fi
 
 # Ordner Strukturen einrichten
 read -r -p "Möchtest du Ordner Strukturen erstellen? [Y|N] " configresponse
+if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
 	make_directories
 else
 	echo "Ordner Strukturen werden nicht erstellt."
@@ -305,6 +308,7 @@ fi
 
 # KDE einrichten
 read -r -p "Möchtest du KDE einrichten? [Y|N] " configresponse
+if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
 	configure_kde
 else
 	echo "KDE wird nicht eingerichtet."
