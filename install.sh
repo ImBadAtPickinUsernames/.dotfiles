@@ -260,7 +260,7 @@ configure_kde() {
 
 # Wichtige Programme installieren
 read -r -p "Möchtest du die wichtigsten Programme installieren? [Y|N] " configresponse
-if [[ $configresponse =$HOME ^(y|yes|Y) ]];then
+if [[ $configresponse =~ ^(y|yes|Y) ]];then
 	install_basics
 else
 	echo "Die wichtigsten Programme werden nicht installiert."
@@ -268,7 +268,7 @@ fi
 
 # Fonts installieren
 read -r -p "Möchtest du Fonts installieren? [Y|N] " configresponse
-if [[ $configresponse =$HOME ^(y|yes|Y) ]];then
+if [[ $configresponse =~ ^(y|yes|Y) ]];then
 	install_fonts
 else
 	echo "Fonts werden nicht installiert."
@@ -276,7 +276,7 @@ fi
 
 # Standart Symlinks erstellen
 read -r -p "Möchtest du die üblichen Symlinks erstellen? [Y|N] " configresponse
-if [[ $configresponse =$HOME ^(y|yes|Y) ]];then
+if [[ $configresponse =~ ^(y|yes|Y) ]];then
 	create_basic_symlinks
 else
 	echo "Die Symlinks werden nicht erstellt."
@@ -284,7 +284,7 @@ fi
 
 # Standard Programme installieren
 read -r -p "Möchtest du die restlichen Programme installieren? [Y|N] " configresponse
-if [[ $configresponse =$HOME ^(y|yes|Y) ]];then
+if [[ $configresponse =~ ^(y|yes|Y) ]];then
 	install_standard_packages
 else
 	echo "Die restlichen Programme werden nicht installiert."
@@ -292,7 +292,7 @@ fi
 
 # Spotify einrichten
 read -r -p "Möchtest du Spicetify einrichten? [Y|N] " configresponse
-if [[ $configresponse =$HOME ^(y|yes|Y) ]] ; then
+if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
 	configure_spotify
 else
 	echo "Spicetify wird nicht eingerichtet."
@@ -300,7 +300,7 @@ fi
 
 # Discord einrichten
 read -r -p "Möchtest du BetterDiscord einrichten? [Y|N] " configresponse
-if [[ $configresponse =$HOME ^(y|yes|Y) ]] ; then
+if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
 	configure_discord
 else
 	echo "BetterDiscord wird nicht eingerichtet."
@@ -308,7 +308,7 @@ fi
 
 # Wallpaper downloaden
 read -r -p "Möchtest du Wallpaper downloaden und hinterlegen? [Y|N] " configresponse
-if [[ $configresponse =$HOME ^(y|yes|Y) ]] ; then
+if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
 	download_wallpapers
 else
 	echo "Wallpaper werden nicht gedownloaded und hinterlegt."
@@ -316,7 +316,7 @@ fi
 
 # Ordner Strukturen einrichten
 read -r -p "Möchtest du Ordner Strukturen erstellen? [Y|N] " configresponse
-if [[ $configresponse =$HOME ^(y|yes|Y) ]] ; then
+if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
 	make_directories
 else
 	echo "Ordner Strukturen werden nicht erstellt."
@@ -324,7 +324,7 @@ fi
 
 # KDE einrichten
 read -r -p "Möchtest du KDE einrichten? [Y|N] " configresponse
-if [[ $configresponse =$HOME ^(y|yes|Y) ]] ; then
+if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
 	configure_kde
 else
 	echo "KDE wird nicht eingerichtet."
