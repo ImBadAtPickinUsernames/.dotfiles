@@ -6,3 +6,15 @@ profile-manager-window=
 
 [kitty.desktop][Global Shortcuts]
 _launch=Meta+T
+
+[org.kde.spectacle.desktop][Global Shortcuts]
+ActiveWindowScreenShot=Meta+Print
+CurrentMonitorScreenShot=
+FullScreenScreenShot=Shift+Print
+OpenWithoutScreenshot=
+RecordRegion=Meta+Shift+R; Meta+R
+RecordScreen=Meta+Alt+R
+RecordWindow=Meta+Ctrl+R
+RectangularRegionScreenShot=Meta+Shift+S
+WindowUnderCursorScreenShot=Meta+Ctrl+Print
+_launch=
