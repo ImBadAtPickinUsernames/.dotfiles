@@ -214,15 +214,15 @@ install_spicetify_text_catppuccin() {
 }
 
 configure_discord() {
+	# Jetzt Discord öffnen und einloggen damit prefs file generiert wird
+	echo "Bitte Discord öffnen und einloggen damit die Einstellungs Datei von Discord generiert wird."
+	read -p "Drücke [Enter] damit es weitergeht."
 	betterdiscordctl install
 	if ! [ -f "$HOME/.config/BetterDiscord" ]; then
 		sudo mkdir "$HOME/.config/BetterDiscord"
 	fi
 	if ! [ -f "$HOME/.config/BetterDiscord/data" ]; then
 		sudo mkdir "$HOME/.config/BetterDiscord/data"
-	fi
-	if ! [ -f "$HOME/.config/BetterDiscord/data/stable" ]; then
-		sudo mkdir "$HOME/.config/BetterDiscord/data/stable"
 	fi
 	if ! [ -f "$HOME/.config/BetterDiscord/data/stable" ]; then
 		sudo mkdir "$HOME/.config/BetterDiscord/data/stable"
