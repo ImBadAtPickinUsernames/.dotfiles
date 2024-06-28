@@ -120,10 +120,10 @@ install_vs_code_extensions() {
 configure_vscode() {
 	install_vs_code_extensions
 	if [ -f "$HOME/.config/Code - OSS/User/settings.json" ]; then
-		sudo rm "$HOME/.config/Code - OSS/User/settings.json"
+		rm "$HOME/.config/Code - OSS/User/settings.json"
 	fi
 	if [ -f "$HOME/.config/Code - OSS/User/keybindings.json" ]; then
-		sudo rm "$HOME/.config/Code - OSS/User/keybindings.json"
+		rm "$HOME/.config/Code - OSS/User/keybindings.json"
 	fi
 	ln -s "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
 	ln -s "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
@@ -131,20 +131,20 @@ configure_vscode() {
 
 configure_kitty() {
 	if [ -d "$HOME/.config/kitty" ]; then
-		sudo mkdir "$HOME/.config/kitty"
+		mkdir "$HOME/.config/kitty"
 	fi
 	if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
-		sudo rm "$HOME/.config/kitty/kitty.conf"
+		rm "$HOME/.config/kitty/kitty.conf"
 	fi
 	ln -s "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
 }
 
 configure_neofetch() {
 	if ! [ -d "$HOME/.config/neofetch" ]; then
-		sudo mkdir "$HOME/.config/neofetch"
+		mkdir "$HOME/.config/neofetch"
 	fi
 	if [ -f "$HOME/.config/neofetch/config.conf" ]; then
-		sudo rm "$HOME/.config/neofetch/config.conf"
+		rm "$HOME/.config/neofetch/config.conf"
 	fi
 	ln -s "$HOME/.dotfiles/.config/neofetch/config.conf" "$HOME/.config/neofetch/config.conf"
 }
@@ -152,12 +152,12 @@ configure_neofetch() {
 create_basic_symlinks() {
 	# Git
 	if [ -f "$HOME/.gitconfig" ]; then
-		sudo rm "$HOME/.gitconfig"
+		rm "$HOME/.gitconfig"
 	fi
 	ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
 	# Bash
 	if [ -f "$HOME/.bashrc" ]; then
-		sudo rm "$HOME/.bashrc"
+		rm "$HOME/.bashrc"
 	fi
 	ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
 }
@@ -170,13 +170,13 @@ configure_spotify() {
 	install_spicetify_text_catppuccin
 	# Erstelle Symlinks
 	if [ -f "$HOME/.config/spicetify/config-xpui.ini" ]; then
-		sudo rm "$HOME/.config/spicetify/config-xpui.ini"
+		rm "$HOME/.config/spicetify/config-xpui.ini"
 	fi
 	if [ -f "$HOME/.config/spicetify/Themes/text/color.ini" ]; then
-		sudo rm "$HOME/.config/spicetify/Themes/text/color.ini"
+		rm "$HOME/.config/spicetify/Themes/text/color.ini"
 	fi
 	if [ -f "$HOME/.config/spicetify/Themes/text/user.css" ]; then
-		sudo rm "$HOME/.config/spicetify/Themes/text/user.css"
+		rm "$HOME/.config/spicetify/Themes/text/user.css"
 	fi
 	ln -s "$HOME/.dotfiles/.config/spicetify/config-xpui.ini" "$HOME/.config/spicetify/config-xpui.ini"
 	ln -s "$HOME/.dotfiles/.config/spicetify/Themes/text/color.ini" "$HOME/.config/spicetify/Themes/text/color.ini"
@@ -203,8 +203,8 @@ install_spicetify_catppuccin() {
 install_spicetify_text_catppuccin() {
 	# Hole spicetify-themes
 	git clone --depth=1 https://github.com/spicetify/spicetify-themes.git 
-	cp -r $HOME/spicetify-themes/* $HOME/.config/spicetify/Themes
-	rm -rf $HOME/spicetify-themes
+	cp -r "$HOME/spicetify-themes/* $HOME/.config/spicetify/Themes"
+	rm -rf "$HOME/spicetify-themes"
 	# Jetzt Spotify öffnen und einloggen damit prefs file generiert wird
 	echo "Bitte Spotify öffnen und einloggen damit die Einstellungs Datei von Spotify generiert wird."
 	read -p "Drücke [Enter] damit es weitergeht."
@@ -219,17 +219,18 @@ configure_discord() {
 	read -p "Drücke [Enter] damit es weitergeht."
 	betterdiscordctl install
 	if ! [ -d "$HOME/.config/BetterDiscord" ]; then
-		sudo mkdir "$HOME/.config/BetterDiscord"
+		mkdir "$HOME/.config/BetterDiscord"
 	fi
-	if [ -d "$HOME/.config/BetterDiscord/data" ]; then
-		sudo mkdir "$HOME/.config/BetterDiscord/data"
+	if ! [ -d "$HOME/.config/BetterDiscord/data" ]; then
+		mkdir ".config/BetterDiscord/data"
 	fi
 	if ! [ -d "$HOME/.config/BetterDiscord/data/stable" ]; then
-		sudo mkdir "$HOME/.config/BetterDiscord/data/stable"
+		mkdir ".config/BetterDiscord/data/stable"
 	fi
 	if ! [ -f "$HOME/.config/BetterDiscord/data/stable/custom.css" ]; then
-		sudo touch "$HOME/.config/BetterDiscord/data/stable/custom.css"
+		touch "$HOME/.config/BetterDiscord/data/stable/custom.css"
 	fi
+	chmod g+w "$HOME/.config/BetterDiscord/data/stable/custom.css"
 	cat << 'EOT' > $HOME/.config/BetterDiscord/data/stable/custom.css
 @import url("https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css");
 EOT
@@ -237,7 +238,7 @@ EOT
 
 download_wallpapers() {
 	git clone https://github.com/zhichaoh/catppuccin-wallpapers.git catppuccin-wallpapers
-	sudo mkdir $HOME/Bilder/wallpapers
+	mkdir $HOME/Bilder/wallpapers
 	mv $HOME/catppuccin-wallpapers $HOME/Bilder/wallpapers
 }
 
@@ -246,7 +247,7 @@ make_directories() {
 		echo "$HOME/workspace existiert bereits."
 	else
 		echo "$HOME/workspace wird angelegt."
-		mkdir $HOME/workspace
+		mkdir "$HOME/workspace"
 	fi
 }
 
@@ -259,7 +260,7 @@ configure_kde() {
 
 # Wichtige Programme installieren
 read -r -p "Möchtest du die wichtigsten Programme installieren? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]];then
+if [[ $configresponse =$HOME ^(y|yes|Y) ]];then
 	install_basics
 else
 	echo "Die wichtigsten Programme werden nicht installiert."
@@ -267,7 +268,7 @@ fi
 
 # Fonts installieren
 read -r -p "Möchtest du Fonts installieren? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]];then
+if [[ $configresponse =$HOME ^(y|yes|Y) ]];then
 	install_fonts
 else
 	echo "Fonts werden nicht installiert."
@@ -275,7 +276,7 @@ fi
 
 # Standart Symlinks erstellen
 read -r -p "Möchtest du die üblichen Symlinks erstellen? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]];then
+if [[ $configresponse =$HOME ^(y|yes|Y) ]];then
 	create_basic_symlinks
 else
 	echo "Die Symlinks werden nicht erstellt."
@@ -283,7 +284,7 @@ fi
 
 # Standard Programme installieren
 read -r -p "Möchtest du die restlichen Programme installieren? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]];then
+if [[ $configresponse =$HOME ^(y|yes|Y) ]];then
 	install_standard_packages
 else
 	echo "Die restlichen Programme werden nicht installiert."
@@ -291,7 +292,7 @@ fi
 
 # Spotify einrichten
 read -r -p "Möchtest du Spicetify einrichten? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
+if [[ $configresponse =$HOME ^(y|yes|Y) ]] ; then
 	configure_spotify
 else
 	echo "Spicetify wird nicht eingerichtet."
@@ -299,7 +300,7 @@ fi
 
 # Discord einrichten
 read -r -p "Möchtest du BetterDiscord einrichten? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
+if [[ $configresponse =$HOME ^(y|yes|Y) ]] ; then
 	configure_discord
 else
 	echo "BetterDiscord wird nicht eingerichtet."
@@ -307,7 +308,7 @@ fi
 
 # Wallpaper downloaden
 read -r -p "Möchtest du Wallpaper downloaden und hinterlegen? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
+if [[ $configresponse =$HOME ^(y|yes|Y) ]] ; then
 	download_wallpapers
 else
 	echo "Wallpaper werden nicht gedownloaded und hinterlegt."
@@ -315,7 +316,7 @@ fi
 
 # Ordner Strukturen einrichten
 read -r -p "Möchtest du Ordner Strukturen erstellen? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
+if [[ $configresponse =$HOME ^(y|yes|Y) ]] ; then
 	make_directories
 else
 	echo "Ordner Strukturen werden nicht erstellt."
@@ -323,7 +324,7 @@ fi
 
 # KDE einrichten
 read -r -p "Möchtest du KDE einrichten? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
+if [[ $configresponse =$HOME ^(y|yes|Y) ]] ; then
 	configure_kde
 else
 	echo "KDE wird nicht eingerichtet."
