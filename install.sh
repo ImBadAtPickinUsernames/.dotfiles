@@ -172,14 +172,14 @@ configure_spotify() {
 	if [ -f "$HOME/.config/spicetify/config-xpui.ini" ]; then
 		rm "$HOME/.config/spicetify/config-xpui.ini"
 	fi
+	ln -s "$HOME/.dotfiles/.config/spicetify/config-xpui.ini" "$HOME/.config/spicetify/config-xpui.ini"
 	if [ -f "$HOME/.config/spicetify/Themes/text/color.ini" ]; then
 		rm "$HOME/.config/spicetify/Themes/text/color.ini"
 	fi
+	ln -s "$HOME/.dotfiles/.config/spicetify/Themes/text/color.ini" "$HOME/.config/spicetify/Themes/text/color.ini"
 	if [ -f "$HOME/.config/spicetify/Themes/text/user.css" ]; then
 		rm "$HOME/.config/spicetify/Themes/text/user.css"
 	fi
-	ln -s "$HOME/.dotfiles/.config/spicetify/config-xpui.ini" "$HOME/.config/spicetify/config-xpui.ini"
-	ln -s "$HOME/.dotfiles/.config/spicetify/Themes/text/color.ini" "$HOME/.config/spicetify/Themes/text/color.ini"
 	ln -s "$HOME/.dotfiles/.config/spicetify/Themes/text/user.css" "$HOME/.config/spicetify/Themes/text/user.css"
 	# Wende neue Config an
 	spicetify restore 
@@ -227,13 +227,10 @@ configure_discord() {
 	if ! [ -d "$HOME/.config/BetterDiscord/data/stable" ]; then
 		mkdir ".config/BetterDiscord/data/stable"
 	fi
-	if ! [ -f "$HOME/.config/BetterDiscord/data/stable/custom.css" ]; then
-		touch "$HOME/.config/BetterDiscord/data/stable/custom.css"
+	if [ -f "$HOME/.config/BetterDiscord/data/stable/custom.css" ]; then
+		rm "$HOME/.config/BetterDiscord/data/stable/custom.css"
 	fi
-	sudo chmod g+w ~/.config/BetterDiscord/data/stable/custom.css
-	cat << 'EOT' > $HOME/.config/BetterDiscord/data/stable/custom.css
-@import url("https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css");
-EOT
+	ln -s "$HOME/.config/.dotfiles/BetterDiscord/data/stable/custom.css" "$HOME/.config/BetterDiscord/data/stable/custom.css"
 }
 
 download_wallpapers() {
