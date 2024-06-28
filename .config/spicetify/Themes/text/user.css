@@ -300,19 +300,19 @@
     z-index: 9;
 }
 .Root__nav-bar .main-yourLibraryX-entryPoints:nth-child(1)::before {
-    content: "Pages";
+    content: "Links";
 }
 .Root__nav-bar .main-yourLibraryX-entryPoints:nth-child(2)::before {
-    content: "Library";
+    content: "Bibliotek";
 }
 .Root__main-view::before {
-    content: "Main";
+    content: "Mitte";
 }
 .Root__now-playing-bar::before {
-    content: "Playing";
+    content: "Spielt gerade";
 }
 .Root__right-sidebar:has(aside:not(:empty))::before {
-    content: "Sidebar";
+    content: "Rechts";
 }
 .Root__nav-bar .main-yourLibraryX-entryPoints:hover::before,
 .Root__main-view:hover::before,
