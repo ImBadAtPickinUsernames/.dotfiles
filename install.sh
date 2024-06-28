@@ -224,7 +224,7 @@ configure_discord() {
 	if [ -f "$HOME/.config/BetterDiscord/data/stable/custom.css" ]; then
 		rm "$HOME/.config/BetterDiscord/data/stable/custom.css"
 	fi
-	ln -s "$HOME/.config/.dotfiles/BetterDiscord/data/stable/custom.css" "$HOME/.config/BetterDiscord/data/stable/custom.css"
+	ln -s "$HOME/.dotfiles/.config/BetterDiscord/data/stable/custom.css" "$HOME/.config/BetterDiscord/data/stable/custom.css"
 }
 
 download_wallpapers() {
