@@ -14,11 +14,7 @@ install_basics() {
 		yay -S neofetch
 	fi
 	configure_neofetch
-	if yay -Qs code > /dev/null ; then
-		echo "VSCode ist schon installiert."
-	else
-		yay -S code
-	fi
+	yay -S code
 	configure_vscode
 	if yay -Qs firefox > /dev/null ; then
 		echo "Firefox ist schon installiert."
@@ -134,6 +130,9 @@ configure_vscode() {
 }
 
 configure_kitty() {
+	if [ -f "$HOME/.config/kitty" ]; then
+		sudo mkdir "$HOME/.config/kitty"
+	fi
 	if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
 		sudo rm "$HOME/.config/kitty/kitty.conf"
 	fi
@@ -141,6 +140,9 @@ configure_kitty() {
 }
 
 configure_neofetch() {
+	if [ -f "$HOME/.config/neofetch" ]; then
+		sudo mkdir "$HOME/.config/neofetch"
+	fi
 	if [ -f "$HOME/.config/neofetch/config.conf" ]; then
 		sudo rm "$HOME/.config/neofetch/config.conf"
 	fi
