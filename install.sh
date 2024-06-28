@@ -166,7 +166,7 @@ create_basic_symlinks() {
 }
 
 configure_spotify() {
-	# Spotify vorbereiten einrichten
+	# Spotify vorbereiten
 	sudo chmod a+wr /opt/spotify
 	sudo chmod a+wr /opt/spotify/Apps -R
 	# Theme installieren
@@ -251,7 +251,7 @@ configure_kde() {
 	else
 		yay -S qt6-svg
 	fi
-	if yay -Qs yay -Qs qt6-declarative > /dev/null ; then
+	if yay -Qs qt6-declarative > /dev/null ; then
 		echo "qt6-declarative ist schon installiert."
 	else
 		yay -S qt6-declarative
