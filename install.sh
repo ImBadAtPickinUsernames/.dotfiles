@@ -57,6 +57,11 @@ install_standard_packages() {
 	else
 		yay -S betterdiscordctl
 	fi
+	if yay -Qs btop > /dev/null ; then
+		echo "btop ist schon installiert."
+	else
+		yay -S btop
+	fi
 	if yay -Qs cava > /dev/null ; then
 		echo "cava ist schon installiert."
 	else
@@ -240,10 +245,23 @@ make_directories() {
 }
 
 configure_kde() {
+	# Needed for SDDM catppuccin theme
+	if yay -Qs qt6-svg > /dev/null ; then
+		echo "qt6-svg ist schon installiert."
+	else
+		yay -S qt6-svg
+	fi
+	if yay -Qs yay -Qs qt6-declarative > /dev/null ; then
+		echo "qt6-declarative ist schon installiert."
+	else
+		yay -S qt6-declarative
+	fi
+	# Install catppuccin KDE theme
 	git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde
 	mv "$HOME/catppuccin-kde $HOME/Dokumente/catppuccin-kde"
 	cd "$HOME/Dokumente/catppuccin-kde"
 	./install.sh
+	ln -s "$HOME/.local/share/icons/" "$HOME/.icons"
 }
 
 # Wichtige Programme installieren
@@ -314,8 +332,8 @@ fi
 read -r -p "Möchtest du KDE einrichten? [J|N] " configresponse
 if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
 	configure_kde
-	cd
-	ln -s ~/.local/share/icons/ ~/.icons
 else
 	echo "KDE wird nicht eingerichtet."
 fi
+
+echo "Fertig."
