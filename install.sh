@@ -130,7 +130,7 @@ configure_vscode() {
 }
 
 configure_kitty() {
-	if [ -f "$HOME/.config/kitty" ]; then
+	if [ -d "$HOME/.config/kitty" ]; then
 		sudo mkdir "$HOME/.config/kitty"
 	fi
 	if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
@@ -140,7 +140,7 @@ configure_kitty() {
 }
 
 configure_neofetch() {
-	if ! [ -f "$HOME/.config/neofetch" ]; then
+	if ! [ -d "$HOME/.config/neofetch" ]; then
 		sudo mkdir "$HOME/.config/neofetch"
 	fi
 	if [ -f "$HOME/.config/neofetch/config.conf" ]; then
@@ -218,17 +218,17 @@ configure_discord() {
 	echo "Bitte Discord öffnen und einloggen damit die Einstellungs Datei von Discord generiert wird."
 	read -p "Drücke [Enter] damit es weitergeht."
 	betterdiscordctl install
-	if ! [ -f "$HOME/.config/BetterDiscord" ]; then
+	if ! [ -d "$HOME/.config/BetterDiscord" ]; then
 		sudo mkdir "$HOME/.config/BetterDiscord"
 	fi
-	if ! [ -f "$HOME/.config/BetterDiscord/data" ]; then
+	if [ -d "$HOME/.config/BetterDiscord/data" ]; then
 		sudo mkdir "$HOME/.config/BetterDiscord/data"
 	fi
-	if ! [ -f "$HOME/.config/BetterDiscord/data/stable" ]; then
+	if ! [ -d "$HOME/.config/BetterDiscord/data/stable" ]; then
 		sudo mkdir "$HOME/.config/BetterDiscord/data/stable"
 	fi
 	if ! [ -f "$HOME/.config/BetterDiscord/data/stable/custom.css" ]; then
-		touch "$HOME/.config/BetterDiscord/data/stable/custom.css"
+		sudo touch "$HOME/.config/BetterDiscord/data/stable/custom.css"
 	fi
 	cat << 'EOT' > $HOME/.config/BetterDiscord/data/stable/custom.css
 @import url("https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css");
