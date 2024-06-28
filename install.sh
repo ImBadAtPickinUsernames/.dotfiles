@@ -2,53 +2,30 @@
 
 install_basics() {
 	yay --save --answerclean N --answerdiff N
-	if yay -Qs neofetch > /dev/null ; then
-		echo "Neofetch ist schon installiert."
-	else
-		yay -S neofetch
-	fi
 	if yay -Qs kitty > /dev/null ; then
 		echo "Kitty ist schon installiert."
 	else
 		yay -S kitty
 	fi
+	configure_kitty
+	if yay -Qs neofetch > /dev/null ; then
+		echo "Neofetch ist schon installiert."
+	else
+		yay -S neofetch
+	fi
+	configure_neofetch
 	if yay -Qs code > /dev/null ; then
 		echo "VSCode ist schon installiert."
 	else
 		yay -S code
 	fi
-	if yay -Qs jq > /dev/null ; then
-		echo "jq ist schon installiert."
-	else
-		yay -S jq
-	fi
+	configure_vscode
 	if yay -Qs firefox > /dev/null ; then
 		echo "Firefox ist schon installiert."
 	else
 		yay -S firefox
 	fi
-}
-
-install_vs_code_extensions() {
-	code --install-extension aaron-bond.better-comments
-	code --install-extension catppuccin.catppuccin-vsc
-	code --install-extension catppuccin.catppuccin-vsc-icons
-	code --install-extension esbenp.prettier-vscode
-	code --install-extension mechatroner.rainbow-csv
-	code --install-extension ms-ceintl.vscode-language-pack-de
-	code --install-extension ms-python.debugpy
-	code --install-extension ms-python.python
-	code --install-extension naumovs.color-highlight
-	code --install-extension yzhang.markdown-all-in-one
-	# Erstelle Symlinks
-	if [ -f "$HOME/.config/Code - OSS/User/settings.json" ]; then
-		sudo rm "$HOME/.config/Code - OSS/User/settings.json"
-	fi
-	if [ -f "$HOME/.config/Code - OSS/User/keybindings.json" ]; then
-		sudo rm "$HOME/.config/Code - OSS/User/keybindings.json"
-	fi
-	ln -s "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
-	ln -s "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
+	configure_vscode
 }
 
 install_standard_packages() {
@@ -73,11 +50,6 @@ install_standard_packages() {
 	else
 		yay -S spicetify-cli
 	fi
-	if yay -Qs cava > /dev/null ; then
-		echo "cava ist schon installiert."
-	else
-		yay -S cava
-	fi
 	if yay -Qs discord > /dev/null ; then
 		echo "Discord ist schon installiert."
 	else
@@ -87,6 +59,13 @@ install_standard_packages() {
 		echo "BetterDiscord ist schon installiert."
 	else
 		yay -S betterdiscordctl
+	fi
+<<'###BLOCK-COMMENT'
+	# Folgendes wird erstmal ausgeschlossen
+	if yay -Qs cava > /dev/null ; then
+		echo "cava ist schon installiert."
+	else
+		yay -S cava
 	fi
 	if yay -Qs geckodriver > /dev/null ; then
 		echo "Geckodriver ist schon installiert."
@@ -108,6 +87,7 @@ install_standard_packages() {
 	else
 		yay -S android-studio
 	fi
+###BLOCK-COMMENT
 }
 
 install_fonts() {
@@ -128,26 +108,56 @@ install_fonts() {
 	fi
 }
 
-create_symlinks() {
-	# Basics
-	if [ -f "$HOME/.gitconfig" ]; then
-		sudo rm "$HOME/.gitconfig"
+install_vs_code_extensions() {
+	code --install-extension aaron-bond.better-comments
+	code --install-extension catppuccin.catppuccin-vsc
+	code --install-extension catppuccin.catppuccin-vsc-icons
+	code --install-extension esbenp.prettier-vscode
+	code --install-extension mechatroner.rainbow-csv
+	code --install-extension ms-ceintl.vscode-language-pack-de
+	code --install-extension ms-python.debugpy
+	code --install-extension ms-python.python
+	code --install-extension naumovs.color-highlight
+	code --install-extension yzhang.markdown-all-in-one
+}
+
+configure_vscode() {
+	install_vs_code_extensions
+	if [ -f "$HOME/.config/Code - OSS/User/settings.json" ]; then
+		sudo rm "$HOME/.config/Code - OSS/User/settings.json"
 	fi
-	if [ -f "$HOME/.bashrc" ]; then
-		sudo rm "$HOME/.bashrc"
+	if [ -f "$HOME/.config/Code - OSS/User/keybindings.json" ]; then
+		sudo rm "$HOME/.config/Code - OSS/User/keybindings.json"
 	fi
-	ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
-	ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
-	# neofetch
-	if [ -f "$HOME/.config/neofetch/config.conf" ]; then
-		sudo rm "$HOME/.config/neofetch/config.conf"
-	fi
-	ln -s "$HOME/.dotfiles/.config/neofetch/config.conf" "$HOME/.config/neofetch/config.conf"
-	# Kitty
+	ln -s "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
+	ln -s "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
+}
+
+configure_kitty() {
 	if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
 		sudo rm "$HOME/.config/kitty/kitty.conf"
 	fi
 	ln -s "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+}
+
+configure_neofetch() {
+	if [ -f "$HOME/.config/neofetch/config.conf" ]; then
+		sudo rm "$HOME/.config/neofetch/config.conf"
+	fi
+	ln -s "$HOME/.dotfiles/.config/neofetch/config.conf" "$HOME/.config/neofetch/config.conf"
+}
+
+create_basic_symlinks() {
+	# Git
+	if [ -f "$HOME/.gitconfig" ]; then
+		sudo rm "$HOME/.gitconfig"
+	fi
+	ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
+	# Bash
+	if [ -f "$HOME/.bashrc" ]; then
+		sudo rm "$HOME/.bashrc"
+	fi
+	ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
 }
 
 configure_spotify() {
@@ -238,12 +248,19 @@ else
 	echo "Die wichtigsten Programme werden nicht installiert."
 fi
 
-# VS Code einrichten
-read -r -p "Möchtest du VSCode Erweiterungen installieren? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
-	install_vs_code_extensions
+# Fonts installieren
+read -r -p "Möchtest du Fonts installieren? [Y|N] " configresponse
+	install_fonts
 else
-	echo "VSCode Erweiterungen werden nicht installiert."
+	echo "Fonts werden nicht installiert."
+fi
+
+# Standart Symlinks erstellen
+read -r -p "Möchtest du die üblichen Symlinks erstellen? [Y|N] " configresponse
+if [[ $configresponse =~ ^(y|yes|Y) ]];then
+	create_basic_symlinks
+else
+	echo "Die Symlinks werden nicht erstellt."
 fi
 
 # Standard Programme installieren
@@ -252,21 +269,6 @@ if [[ $configresponse =~ ^(y|yes|Y) ]];then
 	install_standard_packages
 else
 	echo "Die restlichen Programme werden nicht installiert."
-fi
-
-# Fonts downloaden
-read -r -p "Möchtest du Fonts installieren? [Y|N] " configresponse
-	install_fonts
-else
-	echo "Fonts werden nicht installiert."
-fi
-
-# Symlinks erstellen
-read -r -p "Möchtest du Symlinks erstellen? [Y|N] " configresponse
-if [[ $configresponse =~ ^(y|yes|Y) ]];then
-	create_symlinks
-else
-	echo "Die Symlinks werden nicht erstellt."
 fi
 
 # Spotify einrichten
