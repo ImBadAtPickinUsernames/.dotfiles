@@ -323,6 +323,8 @@ fi
 read -r -p "Möchtest du KDE einrichten? [Y|N] " configresponse
 if [[ $configresponse =~ ^(y|yes|Y) ]] ; then
 	configure_kde
+	cd
+	ln -s ~/.local/share/icons/ ~/.icons
 else
 	echo "KDE wird nicht eingerichtet."
 fi
