@@ -300,8 +300,8 @@ configure_kde() {
 	fi
 	# Wende persönliche KDE Konfig an
 	konsave -s backup
-	konsave -i $HOME/.dotfiles/konsave/profile/catppuccin-mocha-kde.knsv
-	konsave -a catppuccin-mocha-kde.knsv
+	konsave -i $HOME/.dotfiles/kde/konsave/profile/catppuccin-mocha-kde.knsv
+	konsave -a catppuccin-mocha-kde
 }
 
 # Depricated
