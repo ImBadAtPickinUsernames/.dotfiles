@@ -14,6 +14,12 @@ install_basics() {
 		yay -S neofetch
 	fi
 	configure_neofetch
+	if yay -Qs btop > /dev/null ; then
+		echo "btop ist schon installiert."
+	else
+		yay -S btop
+	fi
+	configure_btop
 	# Muss neu installiert werden weil die Commandline sonst nicht funktioniert
 	yay -S code
 	configure_vscode
@@ -56,11 +62,6 @@ install_standard_packages() {
 		echo "BetterDiscord ist schon installiert."
 	else
 		yay -S betterdiscordctl
-	fi
-	if yay -Qs btop > /dev/null ; then
-		echo "btop ist schon installiert."
-	else
-		yay -S btop
 	fi
 	if yay -Qs cava > /dev/null ; then
 		echo "cava ist schon installiert."
@@ -156,6 +157,16 @@ configure_neofetch() {
 		rm "$HOME/.config/neofetch/config.conf"
 	fi
 	ln -s "$HOME/.dotfiles/.config/neofetch/config.conf" "$HOME/.config/neofetch/config.conf"
+}
+
+configure_btop() {
+	if ! [ -d "$HOME/.config/btop" ]; then
+		mkdir "$HOME/.config/btop"
+	fi
+	if ! [ -d "$HOME/.config/btop/themes" ]; then
+		mkdir "$HOME/.config/btop/themes"
+	fi
+	ln -s "$HOME/.dotfiles/.config/btop/themes/catppuccin_mocha.theme" "$HOME/.config/btop/themes/catppuccin_mocha.theme"
 }
 
 create_basic_symlinks() {
