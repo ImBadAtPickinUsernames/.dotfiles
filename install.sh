@@ -116,6 +116,7 @@ install_vs_code_extensions() {
 	code --install-extension aaron-bond.better-comments
 	code --install-extension catppuccin.catppuccin-vsc
 	code --install-extension catppuccin.catppuccin-vsc-icons
+	code --install-extension donjayamanne.githistory
 	code --install-extension esbenp.prettier-vscode
 	code --install-extension mechatroner.rainbow-csv
 	code --install-extension ms-ceintl.vscode-language-pack-de
