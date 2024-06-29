@@ -87,6 +87,11 @@ install_standard_packages() {
 	else
 		yay -S android-studio
 	fi
+	if yay -Qs libreoffice-still > /dev/null ; then
+		echo "Libre Office ist schon installiert."
+	else
+		yay -S libreoffice-still
+	fi
 }
 
 install_fonts() {
@@ -244,6 +249,24 @@ make_directories() {
 	fi
 }
 
+delete_kde_bloat() {
+	if yay -Qs kate > /dev/null ; then
+		yay -Rn kate
+	else
+		echo "Kate ist nicht installiert."
+	fi
+	if yay -Qs okular > /dev/null ; then
+		yay -Rn okular
+	else
+		echo "Okular ist nicht installiert."
+	fi
+	if yay -Qs meld > /dev/null ; then
+		yay -Rn meld
+	else
+		echo "Meld ist nicht installiert."
+	fi
+}
+
 configure_kde() {
 	# Needed for SDDM catppuccin theme
 	if yay -Qs qt6-svg > /dev/null ; then
@@ -327,6 +350,15 @@ if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
 else
 	echo "Ordner Strukturen werden nicht erstellt."
 fi
+
+# Ordner Strukturen einrichten
+read -r -p "Möchtest du KDE Bloat entfernen? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
+	delete_kde_bloat
+else
+	echo "KDE Bloat wird nicht entfernt."
+fi
+
 
 # KDE einrichten
 read -r -p "Möchtest du KDE einrichten? [J|N] " configresponse
