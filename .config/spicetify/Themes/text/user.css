@@ -309,7 +309,7 @@
     content: "Mitte";
 }
 .Root__now-playing-bar::before {
-    content: "Spielt gerade";
+    content: "Läuft gerade";
 }
 .Root__right-sidebar:has(aside:not(:empty))::before {
     content: "Rechts";
