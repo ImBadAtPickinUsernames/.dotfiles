@@ -14,7 +14,7 @@ install_basics() {
 		yay -S neofetch
 	fi
 	configure_neofetch
-	# Needs reinstall so commandline tool gets installed properly
+	# Muss neu installiert werden weil die Commandline sonst nicht funktioniert
 	yay -S code
 	configure_vscode
 	if yay -Qs firefox > /dev/null ; then
@@ -269,6 +269,18 @@ delete_kde_bloat() {
 }
 
 configure_kde() {
+	# Braucht man später für SSDM catppuccin Theme
+	if yay -Qs qt6-svg > /dev/null ; then
+		echo "qt6-svg ist schon installiert."
+	else
+		yay -S qt6-svg
+	fi
+	if yay -Qs qt6-declarative > /dev/null ; then
+		echo "qt6-declarative ist schon installiert."
+	else
+		yay -S qt6-declarative
+	fi
+	# Installiere Icon Pack
 	if yay -Qs papirus-icon-theme > /dev/null ; then
 		echo "Papirus ist schon installiert."
 	else
@@ -280,18 +292,21 @@ configure_kde() {
 		yay -S papirus-folders-catppuccin-git
 	fi
 	papirus-folders -t Papirus-Dark -C cat-mocha-lavender
+	# Installiere konsave
 	if yay -Qs konsave > /dev/null ; then
 		echo "Konsave ist schon installiert."
 	else
 		yay -S konsave
 	fi
+	# Wende persönliche KDE Konfig an
 	konsave -s backup
 	konsave -i $HOME/.dotfiles/konsave/profile/catppuccin-mocha-kde.knsv
 	konsave -a catppuccin-mocha-kde.knsv
 }
 
+# Depricated
 catppuccin_manual_install() {
-	# Needed for SDDM catppuccin theme
+	# Braucht man später für SSDM catppuccin Theme
 	if yay -Qs qt6-svg > /dev/null ; then
 		echo "qt6-svg ist schon installiert."
 	else
@@ -302,7 +317,7 @@ catppuccin_manual_install() {
 	else
 		yay -S qt6-declarative
 	fi
-	# Install catppuccin KDE theme
+	# Installiere catppuccin KDE Theme
 	git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde
 	mv "$HOME/catppuccin-kde $HOME/Dokumente/catppuccin-kde"
 	cd "$HOME/Dokumente/catppuccin-kde"
