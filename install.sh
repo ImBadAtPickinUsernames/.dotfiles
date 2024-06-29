@@ -269,6 +269,17 @@ delete_kde_bloat() {
 }
 
 configure_kde() {
+	if yay -Qs konsave > /dev/null ; then
+		echo "Konsave ist schon installiert."
+	else
+		yay -S konsave
+	fi
+	echo "Konsave Ordner von NAS in $HOME/Dokumente kopieren."
+	read -p "Drücke [Enter] damit es weitergeht."
+	konsave -i $HOME/.dotfiles/konsave/profile/catppuccin-mocha-kde.knsv
+}
+
+catppuccin_manual_install() {
 	# Needed for SDDM catppuccin theme
 	if yay -Qs qt6-svg > /dev/null ; then
 		echo "qt6-svg ist schon installiert."
