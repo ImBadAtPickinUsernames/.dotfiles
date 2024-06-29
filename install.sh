@@ -269,14 +269,25 @@ delete_kde_bloat() {
 }
 
 configure_kde() {
+	if yay -Qs papirus-icon-theme > /dev/null ; then
+		echo "Papirus ist schon installiert."
+	else
+		yay -S papirus-icon-theme
+	fi
+	if yay -Qs papirus-folders-catppuccin-git > /dev/null ; then
+		echo "papirus-folders-catppuccin-git ist schon installiert."
+	else
+		yay -S papirus-folders-catppuccin-git
+	fi
+	papirus-folders -t Papirus-Dark -C cat-mocha-lavender
 	if yay -Qs konsave > /dev/null ; then
 		echo "Konsave ist schon installiert."
 	else
 		yay -S konsave
 	fi
-	echo "Konsave Ordner von NAS in $HOME/Dokumente kopieren."
-	read -p "Drücke [Enter] damit es weitergeht."
+	konsave -s backup
 	konsave -i $HOME/.dotfiles/konsave/profile/catppuccin-mocha-kde.knsv
+	konsave -a catppuccin-mocha-kde.knsv
 }
 
 catppuccin_manual_install() {
