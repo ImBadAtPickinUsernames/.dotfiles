@@ -327,7 +327,7 @@ catppuccin_manual_install() {
 
 # Wichtige Programme installieren
 read -r -p "Möchtest du die wichtigsten Programme installieren? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]];then
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	install_basics
 else
 	echo "Die wichtigsten Programme werden nicht installiert."
@@ -335,7 +335,7 @@ fi
 
 # Fonts installieren
 read -r -p "Möchtest du Fonts installieren? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]];then
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	install_fonts
 else
 	echo "Fonts werden nicht installiert."
@@ -343,7 +343,7 @@ fi
 
 # Standart Symlinks erstellen
 read -r -p "Möchtest du die üblichen Symlinks erstellen? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]];then
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	create_basic_symlinks
 else
 	echo "Die Symlinks werden nicht erstellt."
@@ -351,7 +351,7 @@ fi
 
 # Standard Programme installieren
 read -r -p "Möchtest du die restlichen Programme installieren? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]];then
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	install_standard_packages
 else
 	echo "Die restlichen Programme werden nicht installiert."
@@ -359,7 +359,7 @@ fi
 
 # Spotify einrichten
 read -r -p "Möchtest du Spicetify einrichten? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	configure_spotify
 else
 	echo "Spicetify wird nicht eingerichtet."
@@ -367,7 +367,7 @@ fi
 
 # Discord einrichten
 read -r -p "Möchtest du BetterDiscord einrichten? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	configure_discord
 else
 	echo "BetterDiscord wird nicht eingerichtet."
@@ -375,7 +375,7 @@ fi
 
 # Wallpaper downloaden
 read -r -p "Möchtest du Wallpaper downloaden und hinterlegen? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	download_wallpapers
 else
 	echo "Wallpaper werden nicht gedownloaded und hinterlegt."
@@ -383,7 +383,7 @@ fi
 
 # Ordner Strukturen einrichten
 read -r -p "Möchtest du Ordner Strukturen erstellen? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	make_directories
 else
 	echo "Ordner Strukturen werden nicht erstellt."
@@ -391,7 +391,7 @@ fi
 
 # Ordner Strukturen einrichten
 read -r -p "Möchtest du KDE Bloat entfernen? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	delete_kde_bloat
 else
 	echo "KDE Bloat wird nicht entfernt."
@@ -400,7 +400,7 @@ fi
 
 # KDE einrichten
 read -r -p "Möchtest du KDE einrichten? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]] ; then
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	configure_kde
 else
 	echo "KDE wird nicht eingerichtet."
