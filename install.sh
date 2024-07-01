@@ -253,7 +253,7 @@ download_wallpapers() {
 }
 
 make_directories() {
-	if [ -f "$HOME/workspace" ]; then
+	if [ -d "$HOME/workspace" ]; then
 		echo "$HOME/workspace existiert bereits."
 	else
 		echo "$HOME/workspace wird angelegt."
@@ -400,7 +400,7 @@ else
 	echo "Ordner Strukturen werden nicht erstellt."
 fi
 
-# Ordner Strukturen einrichten
+# Falls bei der KDE Base Installation vergessen wurde die Bloat Programme auszuschließen
 read -r -p "Möchtest du KDE Bloat entfernen? [J|N] " configresponse
 if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	delete_kde_bloat
