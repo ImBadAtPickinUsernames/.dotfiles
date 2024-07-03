@@ -460,20 +460,20 @@ else
 	echo "KDE Bloat wird nicht entfernt."
 fi
 
-# KDE einrichten
-read -r -p "Möchtest du KDE einrichten? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-	configure_kde
-else
-	echo "KDE wird nicht eingerichtet."
-fi
-
 # SDDM einrichten
 read -r -p "Möchtest du SDDM einrichten? [J|N] " configresponse
 if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	configure_sddm
 else
 	echo "SDDM wird nicht eingerichtet."
+fi
+
+# KDE einrichten
+read -r -p "Möchtest du KDE einrichten? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+	configure_kde
+else
+	echo "KDE wird nicht eingerichtet."
 fi
 
 echo "Fertig."
