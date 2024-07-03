@@ -68,6 +68,7 @@ install_standard_packages() {
 	else
 		yay -S cava
 	fi
+	: '
 	if yay -Qs geckodriver > /dev/null ; then
 		echo "Geckodriver ist schon installiert."
 	else
@@ -93,6 +94,7 @@ install_standard_packages() {
 	else
 		yay -S libreoffice-still
 	fi
+	'
 }
 
 install_fonts() {
@@ -335,6 +337,24 @@ catppuccin_manual_install() {
 	./install.sh
 	ln -s "$HOME/.local/share/icons/" "$HOME/.icons"
 }
+
+# Prüfe ob yay istalliert ist
+ISYAY=/sbin/yay
+if [ -f "$ISYAY" ]; then 
+    echo -e "yay wurde gefunden, weiter geht's.\n"
+    yay -Suy
+else 
+    echo -e "yay wurde nicht gefunden, bitte installiere yay.\n"
+	# Wichtige Programme installieren
+	read -r -p "Möchtest du versuchen yay zu installieren (experimentell)? [J|N] " configresponse
+	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+		pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+		cd
+	else
+		echo "yay wurde nicht installiert. Beende Script."
+    	exit 
+	fi
+fi
 
 # Wichtige Programme installieren
 read -r -p "Möchtest du die wichtigsten Programme installieren? [J|N] " configresponse
