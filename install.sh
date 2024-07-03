@@ -348,7 +348,7 @@ else
 	# Wichtige Programme installieren
 	read -r -p "Möchtest du versuchen yay zu installieren (experimentell)? [J|N] " configresponse
 	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-		pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+		sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 		cd
 	else
 		echo "yay wurde nicht installiert. Beende Script."
