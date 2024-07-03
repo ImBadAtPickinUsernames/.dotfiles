@@ -304,14 +304,6 @@ configure_kde() {
 }
 
 configure_sddm() {
-	if yay -Qs sddm-theme-catppuccin > /dev/null ; then
-		echo "sddm-theme-catppuccin ist schon installiert."
-	else
-		yay -S sddm-theme-catppuccin
-	fi
-}
-
-configure_sddm_manually() {
 	# Braucht man später für SSDM catppuccin Theme
 	if yay -Qs qt6-svg > /dev/null ; then
 		echo "qt6-svg ist schon installiert."
@@ -330,17 +322,17 @@ configure_sddm_manually() {
 	# Kopiere Default Konfig dorthin
 	if [ -z "$(ls -A /etc/sddm.conf.d)" ]; then
 		echo "Kopiere Default Konfig nach /etc/sddm.conf.d/..."
-		sudo cp -R "/usr/lib/sddm/sddm.conf.d/default.conf" "/etc/sddm.conf.d/"
+		sudo cp -R "/usr/lib/sddm/sddm.conf.d/default.conf" "/etc/sddm.conf.d/sddm.conf"
 	else
 		echo "Konfig schon vorhanden"
 	fi
 	# Hole und hinterlege Theme
 	echo "Downloade neuesten Catppuccin SDDM Release ..."
-    wget $(curl -s https://api.github.com/repos/catppuccin/sddm/releases/latest  | jq -r '.assets[] | select(.name | endswith ("catppuccin-mocha.zip")) | .browser_download_url')
-    echo "Hinterlege catppuccin in /usr/share/sddm/themes/ ..."
-    CATPPUCCINTHEME=$(curl -s https://api.github.com/repos/catppuccin/sddm/releases/latest  | jq -r '.assets[] | select(.name | endswith ("catppuccin-mocha.zip")) | .name')
-    sudo tar -C /usr/share/sddm/themes/ -xvf $CATPPUCCINTHEME
-	rm -rf "$HOME/catppuccin-mocha.zip"
+    if yay -Qs sddm-theme-catppuccin > /dev/null ; then
+		echo "sddm-theme-catppuccin ist schon installiert."
+	else
+		yay -S sddm-theme-catppuccin
+	fi
 	# Wende Theme an
 	printf "Editiere die Konfig in '/etc/sddm.conf.d/[...]' und trage 'catppuccin-mocha' unter [Themes] ein. \n\n#Prüfe Namen des files\nls /etc/sddm.conf.d/\n#Editiere Konfig\nsudo nano /etc/sddm.conf.d/[...]\n\n"
 	read -p "Drücke [Enter] damit es weitergeht."
@@ -361,9 +353,15 @@ konsave_install() {
 
 # Wird aktuell von konsave übernommen
 catppuccin_manual_install() {
+	# Installiere unzip
+	if yay -Qs unzip > /dev/null ; then
+		echo "unzip ist schon installiert."
+	else
+		yay -S unzip
+	fi
 	# Installiere catppuccin KDE Theme
 	git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde
-	mv "$HOME/catppuccin-kde $HOME/Dokumente/catppuccin-kde"
+	mv "$HOME/catppuccin-kde" "$HOME/Dokumente/catppuccin-kde"
 	cd "$HOME/Dokumente/catppuccin-kde"
 	./install.sh
 	ln -s "$HOME/.local/share/icons/" "$HOME/.icons"
