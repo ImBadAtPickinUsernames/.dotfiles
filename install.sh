@@ -68,7 +68,6 @@ install_standard_packages() {
 	else
 		yay -S cava
 	fi
-	: '
 	if yay -Qs geckodriver > /dev/null ; then
 		echo "Geckodriver ist schon installiert."
 	else
@@ -94,6 +93,7 @@ install_standard_packages() {
 	else
 		yay -S libreoffice-still
 	fi
+	: ' Verschiebe Kommentar um Packages auszuschließen
 	'
 }
 
