@@ -282,17 +282,6 @@ delete_kde_bloat() {
 }
 
 configure_kde() {
-	# Braucht man später für SSDM catppuccin Theme
-	if yay -Qs qt6-svg > /dev/null ; then
-		echo "qt6-svg ist schon installiert."
-	else
-		yay -S qt6-svg
-	fi
-	if yay -Qs qt6-declarative > /dev/null ; then
-		echo "qt6-declarative ist schon installiert."
-	else
-		yay -S qt6-declarative
-	fi
 	# Installiere Icon Pack
 	if yay -Qs papirus-icon-theme > /dev/null ; then
 		echo "Papirus ist schon installiert."
@@ -305,6 +294,59 @@ configure_kde() {
 		yay -S papirus-folders-catppuccin-git
 	fi
 	papirus-folders -t Papirus-Dark -C cat-mocha-lavender
+	# KDE Konfig
+	read -r -p "Möchtest du KDE per konsave einrichten? [J|N] " configresponse
+	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+		konsave_install
+	else
+    	catppuccin_manual_install
+	fi
+}
+
+configure_sddm() {
+	if yay -Qs sddm-theme-catppuccin > /dev/null ; then
+		echo "sddm-theme-catppuccin ist schon installiert."
+	else
+		yay -S sddm-theme-catppuccin
+	fi
+}
+
+configure_sddm_manually() {
+	# Braucht man später für SSDM catppuccin Theme
+	if yay -Qs qt6-svg > /dev/null ; then
+		echo "qt6-svg ist schon installiert."
+	else
+		yay -S qt6-svg
+	fi
+	if yay -Qs qt6-declarative > /dev/null ; then
+		echo "qt6-declarative ist schon installiert."
+	else
+		yay -S qt6-declarative
+	fi
+	# Erstelle Ordner für Konfig
+	if ! [ -d "/etc/sddm.conf.d/" ]; then
+		sudo mkdir "/etc/sddm.conf.d/"
+	fi
+	# Kopiere Default Konfig dorthin
+	if [ -z "$(ls -A /etc/sddm.conf.d)" ]; then
+		echo "Kopiere Default Konfig nach /etc/sddm.conf.d/..."
+		sudo cp -R "/usr/lib/sddm/sddm.conf.d/default.conf" "/etc/sddm.conf.d/"
+	else
+		echo "Konfig schon vorhanden"
+	fi
+	# Hole und hinterlege Theme
+	echo "Downloade neuesten Catppuccin SDDM Release ..."
+    wget $(curl -s https://api.github.com/repos/catppuccin/sddm/releases/latest  | jq -r '.assets[] | select(.name | endswith ("catppuccin-mocha.zip")) | .browser_download_url')
+    echo "Hinterlege catppuccin in /usr/share/sddm/themes/ ..."
+    CATPPUCCINTHEME=$(curl -s https://api.github.com/repos/catppuccin/sddm/releases/latest  | jq -r '.assets[] | select(.name | endswith ("catppuccin-mocha.zip")) | .name')
+    sudo tar -C /usr/share/sddm/themes/ -xvf $CATPPUCCINTHEME
+	rm -rf "$HOME/catppuccin-mocha.zip"
+	# Wende Theme an
+	printf "Editiere die Konfig in '/etc/sddm.conf.d/[...]' und trage 'catppuccin-mocha' unter [Themes] ein. \n\n#Prüfe Namen des files\nls /etc/sddm.conf.d/\n#Editiere Konfig\nsudo nano /etc/sddm.conf.d/[...]\n\n"
+	read -p "Drücke [Enter] damit es weitergeht."
+}
+
+konsave_install() {
 	# Installiere konsave
 	if yay -Qs konsave > /dev/null ; then
 		echo "Konsave ist schon installiert."
@@ -317,25 +359,15 @@ configure_kde() {
 	konsave -a catppuccin-mocha-kde
 }
 
-# Depricated
+# Wird aktuell von konsave übernommen
 catppuccin_manual_install() {
-	# Braucht man später für SSDM catppuccin Theme
-	if yay -Qs qt6-svg > /dev/null ; then
-		echo "qt6-svg ist schon installiert."
-	else
-		yay -S qt6-svg
-	fi
-	if yay -Qs qt6-declarative > /dev/null ; then
-		echo "qt6-declarative ist schon installiert."
-	else
-		yay -S qt6-declarative
-	fi
 	# Installiere catppuccin KDE Theme
 	git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde
 	mv "$HOME/catppuccin-kde $HOME/Dokumente/catppuccin-kde"
 	cd "$HOME/Dokumente/catppuccin-kde"
 	./install.sh
 	ln -s "$HOME/.local/share/icons/" "$HOME/.icons"
+	cd
 }
 
 # Prüfe ob yay istalliert ist
@@ -428,13 +460,20 @@ else
 	echo "KDE Bloat wird nicht entfernt."
 fi
 
-
 # KDE einrichten
 read -r -p "Möchtest du KDE einrichten? [J|N] " configresponse
 if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	configure_kde
 else
 	echo "KDE wird nicht eingerichtet."
+fi
+
+# SDDM einrichten
+read -r -p "Möchtest du SDDM einrichten? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+	configure_sddm
+else
+	echo "SDDM wird nicht eingerichtet."
 fi
 
 echo "Fertig."
