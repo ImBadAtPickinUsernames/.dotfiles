@@ -155,6 +155,7 @@ configure_neofetch() {
 	if ! [ -d "$HOME/.config/neofetch" ]; then
 		mkdir "$HOME/.config/neofetch"
 	fi
+	# TODO Instead of this maybe use -f for ln command in future
 	if [ -f "$HOME/.config/neofetch/config.conf" ]; then
 		rm "$HOME/.config/neofetch/config.conf"
 	fi
@@ -317,15 +318,16 @@ configure_sddm() {
 	fi
 	# Erstelle Ordner für Konfig
 	if ! [ -d "/etc/sddm.conf.d/" ]; then
+		echo "Erstelle Ordner für SDDM Konfig"
 		sudo mkdir "/etc/sddm.conf.d/"
 	fi
-	# Kopiere Default Konfig dorthin
-	if [ -z "$(ls -A /etc/sddm.conf.d)" ]; then
-		echo "Kopiere Default Konfig nach /etc/sddm.conf.d/..."
-		sudo cp -R "/usr/lib/sddm/sddm.conf.d/default.conf" "/etc/sddm.conf.d/sddm.conf"
-	else
-		echo "Konfig schon vorhanden"
+	# Wenn Konfig bereits existiert ersetze alter konfig
+	if ! [ -z "$(ls -A /etc/sddm.conf.d)" ]; then
+		echo "Alte Konfig wird gelöscht und ersetzt"
+		sudo rm /etc/sddm.conf.d/*
 	fi
+	echo "Erstelle Symlink für SDDM Konfig nach /etc/sddm.conf.d/..."
+	sudo ln -s -f "$HOME/.dotfiles/sddm/sddm.conf" "/etc/sddm.conf.d/"
 	# Hole und hinterlege Theme
 	echo "Downloade neuesten Catppuccin SDDM Release ..."
     if yay -Qs sddm-theme-catppuccin > /dev/null ; then
@@ -333,9 +335,6 @@ configure_sddm() {
 	else
 		yay -S sddm-theme-catppuccin
 	fi
-	# Wende Theme an
-	printf "Editiere die Konfig in '/etc/sddm.conf.d/[...]' und trage 'catppuccin-mocha' unter [Themes] ein. \n\n#Prüfe Namen des files\nls /etc/sddm.conf.d/\n#Editiere Konfig\nsudo nano /etc/sddm.conf.d/[...]\n\n"
-	read -p "Drücke [Enter] damit es weitergeht."
 }
 
 konsave_install() {
