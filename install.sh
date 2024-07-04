@@ -316,6 +316,13 @@ configure_sddm() {
 	else
 		yay -S qt6-declarative
 	fi
+	# Hole Theme
+	echo "Downloade neuesten Catppuccin SDDM Release ..."
+    if yay -Qs sddm-theme-catppuccin > /dev/null ; then
+		echo "sddm-theme-catppuccin ist schon installiert."
+	else
+		yay -S sddm-theme-catppuccin
+	fi
 	# Erstelle Ordner für Konfig
 	if ! [ -d "/etc/sddm.conf.d/" ]; then
 		echo "Erstelle Ordner für SDDM Konfig"
@@ -328,13 +335,6 @@ configure_sddm() {
 	fi
 	echo "Erstelle Symlink für SDDM Konfig nach /etc/sddm.conf.d/..."
 	sudo ln -s -f "$HOME/.dotfiles/sddm/sddm.conf" "/etc/sddm.conf.d/"
-	# Hole und hinterlege Theme
-	echo "Downloade neuesten Catppuccin SDDM Release ..."
-    if yay -Qs sddm-theme-catppuccin > /dev/null ; then
-		echo "sddm-theme-catppuccin ist schon installiert."
-	else
-		yay -S sddm-theme-catppuccin
-	fi
 }
 
 konsave_install() {
