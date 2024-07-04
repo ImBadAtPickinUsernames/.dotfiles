@@ -20,6 +20,12 @@ install_basics() {
 		yay -S btop
 	fi
 	configure_btop
+	if yay -Qs cava > /dev/null ; then
+		echo "cava ist schon installiert."
+	else
+		yay -S cava
+	fi
+	configure_cava
 	# Muss neu installiert werden weil die Commandline sonst nicht funktioniert
 	yay -S code
 	configure_vscode
@@ -61,11 +67,6 @@ install_standard_packages() {
 		echo "BetterDiscord ist schon installiert."
 	else
 		yay -S betterdiscordctl
-	fi
-	if yay -Qs cava > /dev/null ; then
-		echo "cava ist schon installiert."
-	else
-		yay -S cava
 	fi
 	if yay -Qs geckodriver > /dev/null ; then
 		echo "Geckodriver ist schon installiert."
@@ -130,39 +131,58 @@ install_vs_code_extensions() {
 
 configure_vscode() {
 	install_vs_code_extensions
+	echo "Erstelle Symlinks..."
 	ln -s -f "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
 	ln -s -f "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
+	echo "Fertig."
 }
 
 configure_kitty() {
+	echo "Erstelle Symlinks..."
 	if ! [ -d "$HOME/.config/kitty" ]; then
 		mkdir "$HOME/.config/kitty"
 	fi
 	ln -s -f "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+	echo "Fertig."
 }
 
 configure_neofetch() {
+	echo "Erstelle Symlinks..."
 	if ! [ -d "$HOME/.config/neofetch" ]; then
 		mkdir "$HOME/.config/neofetch"
 	fi
 	ln -s -f "$HOME/.dotfiles/.config/neofetch/config.conf" "$HOME/.config/neofetch/config.conf"
+	echo "Fertig."
 }
 
 configure_btop() {
+	echo "Erstelle Symlinks..."
 	if ! [ -d "$HOME/.config/btop" ]; then
 		mkdir "$HOME/.config/btop"
 	fi
 	if ! [ -d "$HOME/.config/btop/themes" ]; then
 		mkdir "$HOME/.config/btop/themes"
 	fi
-	ln -s "$HOME/.dotfiles/.config/btop/themes/catppuccin_mocha.theme" "$HOME/.config/btop/themes/catppuccin_mocha.theme"
+	ln -s -f "$HOME/.dotfiles/.config/btop/themes/catppuccin_mocha.theme" "$HOME/.config/btop/themes/catppuccin_mocha.theme"
+	echo "Fertig."
+}
+
+configure_cava() {
+	echo "Erstelle Symlinks..."
+	if ! [ -d "$HOME/.config/cava" ]; then
+		mkdir "$HOME/.config/cava"
+	fi
+	ln -s -f "$HOME/.dotfiles/.config/cava/config" "$HOME/.config/cava/"
+	echo "Fertig."
 }
 
 create_basic_symlinks() {
+	echo "Erstelle Symlinks..."
 	# Git
 	ln -s -f "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
 	# Bash
 	ln -s -f "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
+	echo "Fertig."
 }
 
 configure_spotify() {
@@ -172,9 +192,11 @@ configure_spotify() {
 	# Theme installieren
 	install_spicetify_text_catppuccin
 	# Erstelle Symlinks
+	echo "Erstelle Symlinks..."
 	ln -s -f "$HOME/.dotfiles/.config/spicetify/config-xpui.ini" "$HOME/.config/spicetify/config-xpui.ini"
 	ln -s -f "$HOME/.dotfiles/.config/spicetify/Themes/text/color.ini" "$HOME/.config/spicetify/Themes/text/color.ini"
 	ln -s -f "$HOME/.dotfiles/.config/spicetify/Themes/text/user.css" "$HOME/.config/spicetify/Themes/text/user.css"
+	echo "Fertig."
 	# Wende neue Config an
 	spicetify restore 
 	spicetify backup 
@@ -214,13 +236,15 @@ configure_discord() {
 	if ! [ -d "$HOME/.config/BetterDiscord/data/stable" ]; then
 		mkdir ".config/BetterDiscord/data/stable"
 	fi
+	echo "Erstelle Symlinks..."
 	ln -s -f "$HOME/.dotfiles/.config/BetterDiscord/data/stable/custom.css" "$HOME/.config/BetterDiscord/data/stable/custom.css"
+	echo "Fertig."
 }
 
 download_wallpapers() {
-	git clone https://github.com/zhichaoh/catppuccin-wallpapers.git catppuccin-wallpapers
+	git clone https://github.com/zhichaoh/catppuccin-wallpapers.git catppuccin
 	mkdir "$HOME/Bilder/wallpapers"
-	mv "$HOME/catppuccin-wallpapers" "$HOME/Bilder/wallpapers"
+	mv "$HOME/catppuccin" "$HOME/Bilder/wallpapers"
 }
 
 make_directories() {
@@ -273,7 +297,7 @@ configure_kde() {
 }
 
 configure_sddm() {
-	# Braucht man später für SSDM catppuccin Theme
+	# Braucht man für SSDM catppuccin Theme
 	if yay -Qs qt6-svg > /dev/null ; then
 		echo "qt6-svg ist schon installiert."
 	else
@@ -296,13 +320,14 @@ configure_sddm() {
 		echo "Erstelle Ordner für SDDM Konfig"
 		sudo mkdir "/etc/sddm.conf.d/"
 	fi
-	# Wenn Konfig bereits existiert ersetze alter konfig
+	# Wenn Konfig bereits existiert ersetze alte konfig
 	if ! [ -z "$(ls -A /etc/sddm.conf.d)" ]; then
 		echo "Alte Konfig wird gelöscht und ersetzt"
 		sudo rm /etc/sddm.conf.d/*
 	fi
-	echo "Erstelle Symlink für SDDM Konfig nach /etc/sddm.conf.d/..."
+	echo "Erstelle Symlinks..."
 	sudo ln -s -f "$HOME/.dotfiles/sddm/sddm.conf" "/etc/sddm.conf.d/"
+	echo "Fertig."
 }
 
 konsave_install() {
@@ -320,13 +345,13 @@ konsave_install() {
 
 # Wird aktuell von konsave übernommen
 catppuccin_manual_install() {
-	# Installiere unzip
+	# Installiere unzip (wird benötigt von Catppuccin Theme)
 	if yay -Qs unzip > /dev/null ; then
 		echo "unzip ist schon installiert."
 	else
 		yay -S unzip
 	fi
-	# Installiere catppuccin KDE Theme
+	# Installiere Catppuccin KDE Theme
 	git clone --depth=1 https://github.com/catppuccin/kde catppuccin-kde
 	mv "$HOME/catppuccin-kde" "$HOME/Dokumente/catppuccin-kde"
 	cd "$HOME/Dokumente/catppuccin-kde"
@@ -381,24 +406,22 @@ fi
 read -r -p "Möchtest du die restlichen Programme installieren? [J|N] " configresponse
 if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	install_standard_packages
+	# Spotify einrichten
+	read -r -p "Möchtest du Spicetify einrichten? [J|N] " configresponse
+	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+		configure_spotify
+	else
+		echo "Spicetify wird nicht eingerichtet."
+	fi
+	# Discord einrichten
+	read -r -p "Möchtest du BetterDiscord einrichten? [J|N] " configresponse
+	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+		configure_discord
+	else
+		echo "BetterDiscord wird nicht eingerichtet."
+	fi
 else
 	echo "Die restlichen Programme werden nicht installiert."
-fi
-
-# Spotify einrichten
-read -r -p "Möchtest du Spicetify einrichten? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-	configure_spotify
-else
-	echo "Spicetify wird nicht eingerichtet."
-fi
-
-# Discord einrichten
-read -r -p "Möchtest du BetterDiscord einrichten? [J|N] " configresponse
-if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-	configure_discord
-else
-	echo "BetterDiscord wird nicht eingerichtet."
 fi
 
 # Wallpaper downloaden
