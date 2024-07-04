@@ -28,7 +28,6 @@ install_basics() {
 	else
 		yay -S firefox
 	fi
-	configure_vscode
 }
 
 install_standard_packages() {
@@ -131,35 +130,22 @@ install_vs_code_extensions() {
 
 configure_vscode() {
 	install_vs_code_extensions
-	if [ -f "$HOME/.config/Code - OSS/User/settings.json" ]; then
-		rm "$HOME/.config/Code - OSS/User/settings.json"
-	fi
-	if [ -f "$HOME/.config/Code - OSS/User/keybindings.json" ]; then
-		rm "$HOME/.config/Code - OSS/User/keybindings.json"
-	fi
-	ln -s "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
-	ln -s "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
+	ln -s -f "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
+	ln -s -f "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
 }
 
 configure_kitty() {
 	if ! [ -d "$HOME/.config/kitty" ]; then
 		mkdir "$HOME/.config/kitty"
 	fi
-	if [ -f "$HOME/.config/kitty/kitty.conf" ]; then
-		rm "$HOME/.config/kitty/kitty.conf"
-	fi
-	ln -s "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+	ln -s -f "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
 }
 
 configure_neofetch() {
 	if ! [ -d "$HOME/.config/neofetch" ]; then
 		mkdir "$HOME/.config/neofetch"
 	fi
-	# TODO Instead of this maybe use -f for ln command in future
-	if [ -f "$HOME/.config/neofetch/config.conf" ]; then
-		rm "$HOME/.config/neofetch/config.conf"
-	fi
-	ln -s "$HOME/.dotfiles/.config/neofetch/config.conf" "$HOME/.config/neofetch/config.conf"
+	ln -s -f "$HOME/.dotfiles/.config/neofetch/config.conf" "$HOME/.config/neofetch/config.conf"
 }
 
 configure_btop() {
@@ -174,15 +160,9 @@ configure_btop() {
 
 create_basic_symlinks() {
 	# Git
-	if [ -f "$HOME/.gitconfig" ]; then
-		rm "$HOME/.gitconfig"
-	fi
-	ln -s "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
+	ln -s -f "$HOME/.dotfiles/.gitconfig" "$HOME/.gitconfig"
 	# Bash
-	if [ -f "$HOME/.bashrc" ]; then
-		rm "$HOME/.bashrc"
-	fi
-	ln -s "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
+	ln -s -f "$HOME/.dotfiles/.bashrc" "$HOME/.bashrc"
 }
 
 configure_spotify() {
@@ -192,18 +172,9 @@ configure_spotify() {
 	# Theme installieren
 	install_spicetify_text_catppuccin
 	# Erstelle Symlinks
-	if [ -f "$HOME/.config/spicetify/config-xpui.ini" ]; then
-		rm "$HOME/.config/spicetify/config-xpui.ini"
-	fi
-	ln -s "$HOME/.dotfiles/.config/spicetify/config-xpui.ini" "$HOME/.config/spicetify/config-xpui.ini"
-	if [ -f "$HOME/.config/spicetify/Themes/text/color.ini" ]; then
-		rm "$HOME/.config/spicetify/Themes/text/color.ini"
-	fi
-	ln -s "$HOME/.dotfiles/.config/spicetify/Themes/text/color.ini" "$HOME/.config/spicetify/Themes/text/color.ini"
-	if [ -f "$HOME/.config/spicetify/Themes/text/user.css" ]; then
-		rm "$HOME/.config/spicetify/Themes/text/user.css"
-	fi
-	ln -s "$HOME/.dotfiles/.config/spicetify/Themes/text/user.css" "$HOME/.config/spicetify/Themes/text/user.css"
+	ln -s -f "$HOME/.dotfiles/.config/spicetify/config-xpui.ini" "$HOME/.config/spicetify/config-xpui.ini"
+	ln -s -f "$HOME/.dotfiles/.config/spicetify/Themes/text/color.ini" "$HOME/.config/spicetify/Themes/text/color.ini"
+	ln -s -f "$HOME/.dotfiles/.config/spicetify/Themes/text/user.css" "$HOME/.config/spicetify/Themes/text/user.css"
 	# Wende neue Config an
 	spicetify restore 
 	spicetify backup 
@@ -243,10 +214,7 @@ configure_discord() {
 	if ! [ -d "$HOME/.config/BetterDiscord/data/stable" ]; then
 		mkdir ".config/BetterDiscord/data/stable"
 	fi
-	if [ -f "$HOME/.config/BetterDiscord/data/stable/custom.css" ]; then
-		rm "$HOME/.config/BetterDiscord/data/stable/custom.css"
-	fi
-	ln -s "$HOME/.dotfiles/.config/BetterDiscord/data/stable/custom.css" "$HOME/.config/BetterDiscord/data/stable/custom.css"
+	ln -s -f "$HOME/.dotfiles/.config/BetterDiscord/data/stable/custom.css" "$HOME/.config/BetterDiscord/data/stable/custom.css"
 }
 
 download_wallpapers() {
@@ -402,7 +370,7 @@ else
 fi
 
 # Standart Symlinks erstellen
-read -r -p "Möchtest du die üblichen Symlinks erstellen? [J|N] " configresponse
+read -r -p "Möchtest du die üblichen Symlinks erstellen (nur git und bashrc)? [J|N] " configresponse
 if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	create_basic_symlinks
 else
