@@ -68,6 +68,11 @@ install_standard_packages() {
 	else
 		yay -S betterdiscordctl
 	fi
+	if yay -Qs pinta > /dev/null ; then
+		echo "Pinta ist schon installiert."
+	else
+		yay -S pinta
+	fi
 	if yay -Qs geckodriver > /dev/null ; then
 		echo "Geckodriver ist schon installiert."
 	else
