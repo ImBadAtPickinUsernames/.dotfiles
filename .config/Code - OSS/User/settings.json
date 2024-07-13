@@ -2,8 +2,10 @@
     "workbench.iconTheme": "catppuccin-mocha",
     "workbench.colorTheme": "Catppuccin Mocha",
     "workbench.startupEditor": "none",
-    "security.workspace.trust.untrustedFiles": "open",
     "git.confirmSync": false,
     "editor.fontFamily": "'JetBrainsMono Nerd Font', 'monospace', monospace",
-    "catppuccin.accentColor": "lavender"
+    "catppuccin.accentColor": "lavender",
+    "security.workspace.trust.startupPrompt": "never",
+    "security.workspace.trust.untrustedFiles": "open",
+    "security.workspace.trust.banner": "never"
 }
