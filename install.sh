@@ -151,6 +151,7 @@ configure_neovim() {
 		mkdir "$HOME/.config/nvim"
 	fi
 	ln -s -f "$HOME/.dotfiles/.config/nvim/init.vim" "$HOME/.config/nvim/init.vim"
+	echo "Führe beim ersten Start von neovim :PlugInstall aus, damit das Theme angewendet wird."
 	echo "Fertig."
 }
 
