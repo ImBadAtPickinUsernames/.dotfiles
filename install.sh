@@ -34,6 +34,17 @@ install_basics() {
 	else
 		yay -S firefox
 	fi
+	if yay -Qs neovim > /dev/null ; then
+		echo "Neovim ist schon installiert."
+	else
+		yay -S neovim
+	fi
+	if yay -Qs vim-plug > /dev/null ; then
+		echo "vim-plug ist schon installiert."
+	else
+		yay -S vim-plug
+	fi
+	configure_neovim
 }
 
 install_standard_packages() {
@@ -132,6 +143,15 @@ install_vs_code_extensions() {
 	code --install-extension ms-python.python
 	code --install-extension naumovs.color-highlight
 	code --install-extension yzhang.markdown-all-in-one
+}
+
+configure_neovim() {
+	echo "Erstelle Symlinks..."
+	if ! [ -d "$HOME/.config/nvim" ]; then
+		mkdir "$HOME/.config/nvim"
+	fi
+	ln -s -f "$HOME/.dotfiles/.config/nvim/init.vim" "$HOME/.config/nvim/init.vim"
+	echo "Fertig."
 }
 
 configure_vscode() {
