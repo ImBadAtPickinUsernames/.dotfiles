@@ -1,0 +1,55 @@
+{
+  "timeStamp": 1720989700748,
+  "version": "1.58.0",
+  "userSettings": {
+    "advancedUserEnabled": true,
+    "uiAccentCustom": true,
+    "uiAccentCustom0": "#b4befe",
+    "importedLists": [],
+    "popupPanelSections": 31,
+    "showIconBadge": false
+  },
+  "selectedFilterLists": [
+    "user-filters",
+    "ublock-filters",
+    "ublock-badware",
+    "ublock-privacy",
+    "ublock-quick-fixes",
+    "ublock-unbreak",
+    "easylist",
+    "adguard-generic",
+    "adguard-mobile",
+    "easyprivacy",
+    "adguard-spyware",
+    "adguard-spyware-url",
+    "block-lan",
+    "urlhaus-1",
+    "curben-phishing",
+    "plowe-0",
+    "fanboy-cookiemonster",
+    "ublock-cookies-easylist",
+    "adguard-cookies",
+    "ublock-cookies-adguard",
+    "easylist-chat",
+    "easylist-newsletters",
+    "easylist-notifications",
+    "easylist-annoyances",
+    "adguard-mobile-app-banners",
+    "adguard-other-annoyances",
+    "adguard-popup-overlays",
+    "adguard-widgets",
+    "ublock-annoyances",
+    "DEU-0"
+  ],
+  "hiddenSettings": {
+    "userResourcesLocation": "https://raw.githubusercontent.com/pixeltris/TwitchAdSolutions/master/video-swap-new/video-swap-new-ublock-origin.js"
+  },
+  "whitelist": [
+    "chrome-extension-scheme",
+    "moz-extension-scheme"
+  ],
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop",
+  "urlFilteringString": "",
+  "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-csp-reports: * true",
+  "userFilters": "twitch.tv##+js(twitch-videoad)\n\n! 11.06.2024 https://www.twitch.tv\nwww.twitch.tv##.kBtJDm.InjectLayout-sc-1i43xsx-0 > .cegTsp.bTXTVH.ScCoreButtonSecondary-sc-ocjdkq-2.ScCoreButton-sc-ocjdkq-0\nwww.twitch.tv##.top-nav__external-link\nwww.twitch.tv##div.jDgJoG.Layout-sc-1xcs6mc-0:nth-of-type(3)\n\n! 11.06.2024 https://u.gg\nu.gg##.btn-blue_hover.btn-blue\n\n! 12.06.2024 https://www.twitch.tv\nwww.twitch.tv##.kBtJDm.InjectLayout-sc-1i43xsx-0 > .cegTsp.ljgEdo.ScCoreButtonSecondary-sc-ocjdkq-2.ScCoreButton-sc-ocjdkq-0\n\n! 13.06.2024 https://www.youtube.com\nwww.youtube.com##.ytd-rich-section-renderer.style-scope > .ytd-rich-shelf-renderer.style-scope\n\n! 17.06.2024 https://eldenring.wiki.fextralife.com\n||fextralife.minnit.org/Fextralife?embed&embedmobile&nickname=&nec=3063729$subdocument\neldenring.wiki.fextralife.com##.simulation-hero-heading.section-heading-light.section-heading.sidebar"
+}
