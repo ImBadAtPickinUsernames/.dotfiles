@@ -109,6 +109,11 @@ install_standard_packages() {
 	else
 		yay -S libreoffice-still
 	fi
+	if yay -Qs libreoffice-still-de > /dev/null ; then
+		echo "Sprache Deutsch für Libre Office ist schon installiert."
+	else
+		yay -S libreoffice-still-de
+	fi
 	: ' Verschiebe Kommentar um Packages auszuschließen
 	'
 }
