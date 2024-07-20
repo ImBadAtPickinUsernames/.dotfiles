@@ -2,7 +2,9 @@
 
 ### Description
 
-My dotfiles for personal use.
+My dotfiles.<br>
+This repository is only public so I can clone it easier.<br>
+It's not really meant to be used by others than myself.
 
 ##
 
