@@ -79,6 +79,11 @@ install_standard_packages() {
 	else
 		yay -S betterdiscordctl
 	fi
+	if yay -Qs proton-vpn-gtk-app > /dev/null ; then
+		echo "ProtonVPN ist schon installiert."
+	else
+		yay -S proton-vpn-gtk-app
+	fi
 	if yay -Qs pinta > /dev/null ; then
 		echo "Pinta ist schon installiert."
 	else
