@@ -25,8 +25,12 @@ $HOME/.dotfiles/install.sh
 ```
 ### Screenshots
 
-![](https://github.com/ImBadAtPickinUsernames/.dotfiles/blob/main/screenshots/screenshot-1.png?raw=true)
+![](https://github.com/ImBadAtPickinUsernames/.dotfiles/blob/main/screenshots/screenshot1.png?raw=true)
 
 ##
 
-![](https://github.com/ImBadAtPickinUsernames/.dotfiles/blob/main/screenshots/screenshot-2.png?raw=true)
+![](https://github.com/ImBadAtPickinUsernames/.dotfiles/blob/main/screenshots/screenshot2.png?raw=true)
+
+##
+
+![](https://github.com/ImBadAtPickinUsernames/.dotfiles/blob/main/screenshots/screenshot3.png?raw=true)
