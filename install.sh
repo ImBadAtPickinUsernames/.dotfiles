@@ -119,6 +119,21 @@ install_standard_packages() {
 	else
 		yay -S libreoffice-still-de
 	fi
+	if yay -Qs virtualbox > /dev/null ; then
+		echo "VirtualBox ist schon installiert."
+	else
+		yay -S virtualbox
+	fi
+	if yay -Qs virtualbox-guest-iso > /dev/null ; then
+		echo "virtualbox-guest-iso ist schon installiert."
+	else
+		yay -S virtualbox-guest-iso
+	fi
+	if yay -Qs virtualbox-host-dkms > /dev/null ; then
+		echo "virtualbox-host-dkms ist schon installiert."
+	else
+		yay -S virtualbox-host-dkms
+	fi
 	: ' Verschiebe Kommentar um Packages auszuschließen
 	'
 }
