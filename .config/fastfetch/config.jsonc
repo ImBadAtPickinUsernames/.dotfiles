@@ -4,10 +4,10 @@
 {
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
     "logo": {
-         "type": "auto",
+         "type": "auto"/*,
          "padding": {
              "top": 3
-         }
+         }*/
     },
     "display": {
         "separator": "  ",
@@ -28,10 +28,10 @@
         "host",
         "cpu",
         "gpu",
-        "disk",
+        // "disk",
         "memory",
         // "swap",
-        "display",
+        // "display",
         // "brightness",
         "battery",
         "poweradapter",
@@ -59,13 +59,13 @@
         // "theme",
         // "icons",
         // "wallpaper",
-        "packages",
+        // "packages",
         "uptime",
-        "media",
-        {
+        // "media",
+        /* {
             "type": "localip",
             "compact": true
-        },
+        },*/
         "publicip",
         {
             "type": "wifi",
