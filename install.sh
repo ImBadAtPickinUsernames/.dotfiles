@@ -8,12 +8,12 @@ install_basics() {
 		yay -S kitty
 	fi
 	configure_kitty
-	if yay -Qs neofetch > /dev/null ; then
-		echo "Neofetch ist schon installiert."
+	if yay -Qs fastfetch > /dev/null ; then
+		echo "Fastfetch ist schon installiert."
 	else
-		yay -S neofetch
+		yay -S fastfetch
 	fi
-	configure_neofetch
+	configure_fastfetch
 	if yay -Qs btop > /dev/null ; then
 		echo "btop ist schon installiert."
 	else
@@ -197,12 +197,12 @@ configure_kitty() {
 	echo "Fertig."
 }
 
-configure_neofetch() {
+configure_fastfetch() {
 	echo "Erstelle Symlinks..."
-	if ! [ -d "$HOME/.config/neofetch" ]; then
-		mkdir "$HOME/.config/neofetch"
+	if ! [ -d "$HOME/.config/fastfetch" ]; then
+		mkdir "$HOME/.config/fastfetch"
 	fi
-	ln -s -f "$HOME/.dotfiles/.config/neofetch/config.conf" "$HOME/.config/neofetch/config.conf"
+	ln -s -f "$HOME/.dotfiles/.config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 	echo "Fertig."
 }
 
