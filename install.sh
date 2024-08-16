@@ -89,6 +89,11 @@ install_standard_packages() {
 	else
 		yay -S pinta
 	fi
+	if yay -Qs bitwarden > /dev/null ; then
+		echo "Bitwarden ist schon installiert."
+	else
+		yay -S bitwarden
+	fi
 	if yay -Qs geckodriver > /dev/null ; then
 		echo "Geckodriver ist schon installiert."
 	else
