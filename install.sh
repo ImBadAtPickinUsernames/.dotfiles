@@ -161,6 +161,24 @@ install_fonts() {
 	fi
 }
 
+install_cli_fun() {
+	if yay -Qs pipes.sh > /dev/null ; then
+		echo "pipes.sh ist schon installiert."
+	else
+		yay -S pipes.sh
+	fi
+	if yay -Qs cbonsai > /dev/null ; then
+		echo "cbonsai Nerd Font ist schon installiert."
+	else
+		yay -S cbonsai
+	fi
+	if yay -Qs rainfall > /dev/null ; then
+		echo "rainfall Font ist schon installiert."
+	else
+		yay -S rainfall
+	fi
+}
+
 install_vs_code_extensions() {
 	code --install-extension aaron-bond.better-comments
 	code --install-extension catppuccin.catppuccin-vsc
@@ -478,6 +496,14 @@ if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	fi
 else
 	echo "Die restlichen Programme werden nicht installiert."
+fi
+
+# Fonts installieren
+read -r -p "Möchtest du unnütze Terminal-Screensaver installieren? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+	install_cli_fun
+else
+	echo "Terminal-Screensaver werden nicht installiert."
 fi
 
 # Wallpaper downloaden
