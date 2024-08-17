@@ -139,6 +139,13 @@ install_standard_packages() {
 	else
 		yay -S virtualbox-host-dkms
 	fi
+	# Bei Nvidia Problemen mit Variable WEBKIT_DISABLE_COMPOSITING_MODE=1 starten
+	# -> WEBKIT_DISABLE_COMPOSITING_MODE=1 foliate
+	if yay -Qs foliate > /dev/null ; then
+		echo "Foliate ist schon installiert."
+	else
+		yay -S foliate
+	fi
 	: ' Verschiebe Kommentar um Packages auszuschließen
 	'
 }
