@@ -145,6 +145,7 @@ install_standard_packages() {
 		echo "Foliate ist schon installiert."
 	else
 		yay -S foliate
+		configure_foliate
 	fi
 	: ' Verschiebe Kommentar um Packages auszuschließen
 	'
@@ -233,6 +234,18 @@ configure_fastfetch() {
 		mkdir "$HOME/.config/fastfetch"
 	fi
 	ln -s -f "$HOME/.dotfiles/.config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+	echo "Fertig."
+}
+
+configure_foliate() {
+	echo "Erstelle Symlinks..."
+	if ! [ -d "$HOME/.config/com.github.johnfactotum.Foliate" ]; then
+		mkdir "$HOME/.config/com.github.johnfactotum.Foliate"
+	fi
+	if ! [ -d "$HOME/.config/com.github.johnfactotum.Foliate/themes" ]; then
+		mkdir "$HOME/.config/com.github.johnfactotum.Foliate/themes"
+	fi
+	ln -s -f "$HOME/.dotfiles/.config/com.github.johnfactotum.Foliate/themes/catppuccin-mocha.json" "$HOME/.config/com.github.johnfactotum.Foliate/themes/catppuccin-mocha.json"
 	echo "Fertig."
 }
 
