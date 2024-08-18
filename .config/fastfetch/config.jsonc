@@ -59,7 +59,7 @@
             "format": "{user-name}@{host-name}"
         },
         "os",
-        // "kernel",
+        "kernel",
         // "lm",
         "de",
         // "wm",
