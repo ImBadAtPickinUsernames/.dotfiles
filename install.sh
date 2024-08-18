@@ -34,6 +34,11 @@ install_basics() {
 	else
 		yay -S firefox
 	fi
+	if yay -Qs vim > /dev/null ; then
+		echo "Vim ist schon installiert."
+	else
+		yay -S vim
+	fi
 	if yay -Qs neovim > /dev/null ; then
 		echo "Neovim ist schon installiert."
 	else
@@ -161,11 +166,6 @@ install_fonts() {
 		echo "JetBrains Nerd Font ist schon installiert."
 	else
 		yay -S ttf-jetbrains-mono-nerd
-	fi
-	if yay -Qs ttf-jetbrains-mono > /dev/null ; then
-		echo "JetBrains Font ist schon installiert."
-	else
-		yay -S ttf-jetbrains-mono
 	fi
 }
 
