@@ -20,12 +20,6 @@ install_basics() {
 		yay -S btop
 	fi
 	configure_btop
-	if yay -Qs cava > /dev/null ; then
-		echo "cava ist schon installiert."
-	else
-		yay -S cava
-	fi
-	configure_cava
 	# Muss neu installiert werden weil die Commandline sonst nicht funktioniert
 	yay -S code
 	configure_vscode
@@ -54,15 +48,17 @@ install_basics() {
 
 install_standard_packages() {
 	yay --save --answerclean N --answerdiff N
-	if yay -Qs remmina > /dev/null ; then
-		echo "Remmina ist schon installiert."
+	if yay -Qs cava > /dev/null ; then
+		echo "cava ist schon installiert."
 	else
-		yay -S remmina
+		yay -S cava
 	fi
-	if yay -Qs freerdp > /dev/null ; then
-		yay -S freerdp
+	# Cava einrichten
+	read -r -p "Möchtest du cava einrichten? [J|N] " configresponse
+	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+		configure_cava
 	else
-		echo "FreeRDP ist schon installiert."
+		echo "Cava wird nicht eingerichtet."
 	fi
 	if yay -Qs spotify > /dev/null ; then
 		echo "Spotify ist schon installiert."
@@ -74,6 +70,13 @@ install_standard_packages() {
 	else
 		yay -S spicetify-cli
 	fi
+	# Spotify einrichten
+	read -r -p "Möchtest du Spicetify einrichten? [J|N] " configresponse
+	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+		configure_spotify
+	else
+		echo "Spicetify wird nicht eingerichtet."
+	fi
 	if yay -Qs discord > /dev/null ; then
 		echo "Discord ist schon installiert."
 	else
@@ -84,10 +87,41 @@ install_standard_packages() {
 	else
 		yay -S betterdiscordctl
 	fi
+	# Discord einrichten
+	read -r -p "Möchtest du BetterDiscord einrichten? [J|N] " configresponse
+	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+		configure_discord
+	else
+		echo "BetterDiscord wird nicht eingerichtet."
+	fi
 	if yay -Qs proton-vpn-gtk-app > /dev/null ; then
 		echo "ProtonVPN ist schon installiert."
 	else
 		yay -S proton-vpn-gtk-app
+	fi
+	# Bei Nvidia Problemen mit Variable WEBKIT_DISABLE_COMPOSITING_MODE=1 starten
+	# -> WEBKIT_DISABLE_COMPOSITING_MODE=1 foliate
+	if yay -Qs foliate > /dev/null ; then
+		echo "Foliate ist schon installiert."
+	else
+		yay -S foliate
+	fi
+	# Foliate einrichten
+	read -r -p "Möchtest du Foliate einrichten? [J|N] " configresponse
+	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+		configure_foliate
+	else
+		echo "Foliate wird nicht eingerichtet."
+	fi
+	if yay -Qs remmina > /dev/null ; then
+		echo "Remmina ist schon installiert."
+	else
+		yay -S remmina
+	fi
+	if yay -Qs freerdp > /dev/null ; then
+		yay -S freerdp
+	else
+		echo "FreeRDP ist schon installiert."
 	fi
 	if yay -Qs pinta > /dev/null ; then
 		echo "Pinta ist schon installiert."
@@ -144,14 +178,6 @@ install_standard_packages() {
 	else
 		yay -S virtualbox-host-dkms
 	fi
-	# Bei Nvidia Problemen mit Variable WEBKIT_DISABLE_COMPOSITING_MODE=1 starten
-	# -> WEBKIT_DISABLE_COMPOSITING_MODE=1 foliate
-	if yay -Qs foliate > /dev/null ; then
-		echo "Foliate ist schon installiert."
-	else
-		yay -S foliate
-		configure_foliate
-	fi
 	: ' Verschiebe Kommentar um Packages auszuschließen
 	'
 }
@@ -176,12 +202,12 @@ install_cli_fun() {
 		yay -S pipes.sh
 	fi
 	if yay -Qs cbonsai > /dev/null ; then
-		echo "cbonsai Nerd Font ist schon installiert."
+		echo "cbonsai ist schon installiert."
 	else
 		yay -S cbonsai
 	fi
 	if yay -Qs rainfall > /dev/null ; then
-		echo "rainfall Font ist schon installiert."
+		echo "rainfall ist schon installiert."
 	else
 		yay -S rainfall
 	fi
@@ -500,20 +526,6 @@ fi
 read -r -p "Möchtest du die restlichen Programme installieren? [J|N] " configresponse
 if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	install_standard_packages
-	# Spotify einrichten
-	read -r -p "Möchtest du Spicetify einrichten? [J|N] " configresponse
-	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-		configure_spotify
-	else
-		echo "Spicetify wird nicht eingerichtet."
-	fi
-	# Discord einrichten
-	read -r -p "Möchtest du BetterDiscord einrichten? [J|N] " configresponse
-	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-		configure_discord
-	else
-		echo "BetterDiscord wird nicht eingerichtet."
-	fi
 else
 	echo "Die restlichen Programme werden nicht installiert."
 fi
