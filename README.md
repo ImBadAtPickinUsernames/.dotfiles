@@ -25,6 +25,16 @@ $HOME/.dotfiles/install.sh
 ```
 ### Screenshots
 
+#### EndeavourOS
+
+![](https://github.com/ImBadAtPickinUsernames/.dotfiles/blob/main/screenshots/screenshot-eos.png?raw=true)
+
+#### Arch Linux
+
+![](https://github.com/ImBadAtPickinUsernames/.dotfiles/blob/main/screenshots/screenshot-arch.png?raw=true)
+
+##
+
 ![](https://github.com/ImBadAtPickinUsernames/.dotfiles/blob/main/screenshots/screenshot1.png?raw=true)
 
 ##
