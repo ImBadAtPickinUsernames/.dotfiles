@@ -12,3 +12,6 @@ PS1='[\u@\h \W]\$ '
 echo
 fastfetch 
 echo
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/lopi/.lmstudio/bin"

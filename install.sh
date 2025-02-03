@@ -60,6 +60,18 @@ install_standard_packages() {
 	else
 		echo "Cava wird nicht eingerichtet."
 	fi
+	if yay -Qs tickrs > /dev/null ; then
+		echo "Tickrs ist schon installiert."
+	else
+		yay -S tickrs
+	fi
+	# Cava einrichten
+	read -r -p "Möchtest du tickrs einrichten? [J|N] " configresponse
+	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+		configure_tickrs
+	else
+		echo "Tickrs wird nicht eingerichtet."
+	fi
 	if yay -Qs spotify > /dev/null ; then
 		echo "Spotify ist schon installiert."
 	else
@@ -178,6 +190,11 @@ install_standard_packages() {
 	else
 		yay -S virtualbox-host-dkms
 	fi
+	if yay -Qs lmstudio > /dev/null ; then
+		echo "LMStudio ist schon installiert."
+	else
+		yay -S lmstudio
+	fi
 	: ' Verschiebe Kommentar um Packages auszuschließen
 	'
 }
@@ -293,6 +310,15 @@ configure_cava() {
 		mkdir "$HOME/.config/cava"
 	fi
 	ln -s -f "$HOME/.dotfiles/.config/cava/config" "$HOME/.config/cava/"
+	echo "Fertig."
+}
+
+configure_tickrs() {
+	echo "Erstelle Symlinks..."
+	if ! [ -d "$HOME/.config/tickrs" ]; then
+		mkdir "$HOME/.config/tickrs"
+	fi
+	ln -s -f "$HOME/.dotfiles/.config/tickrs/config.yml" "$HOME/.config/tickrs/config.yml"
 	echo "Fertig."
 }
 
