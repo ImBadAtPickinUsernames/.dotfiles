@@ -1,0 +1,18 @@
+[Desktop Entry]
+Comment[de_DE]=
+Comment=
+Exec=/home/lopi/workspace/scripts/amazon-watchlist-check.sh
+GenericName[de_DE]=
+GenericName=
+Icon=application-x-shellscript
+MimeType=
+Name[de_DE]=amazon-watchlist-check.sh
+Name=amazon-watchlist-check.sh
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-KDE-AutostartScript=true
+X-KDE-SubstituteUID=false
+X-KDE-Username=

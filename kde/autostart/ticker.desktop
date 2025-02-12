@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Ticker
+Comment=Launch Ticker in Kitty
+Exec=/usr/bin/kitty --class Ticker -e ticker
+Icon=kitty
+Terminal=false
+StartupNotify=false

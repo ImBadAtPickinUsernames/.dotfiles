@@ -42,6 +42,7 @@ install_standard_packages() {
   local packages=(
     cava
 	tickrs
+	ticker
     spotify
     spicetify-cli
     discord
@@ -264,6 +265,16 @@ configure_spotify() {
 	spicetify restore 
 	spicetify backup 
 	spicetify apply
+}
+
+configure_ticker() {
+	echo "Erstelle Symlinks..."
+	if ! [ -d "$HOME/.config/ticker" ]; then
+		mkdir "$HOME/.config/ticker"
+	fi
+	# ln -s -f "$HOME/.dotfiles/.config/ticker/.ticker.yaml" "$HOME/.config/ticker/.ticker.yaml"
+	cp "$HOME/.dotfiles/.config/ticker/.ticker.yaml" "$HOME/.config/ticker/"
+	echo "Fertig."
 }
 
 configure_tickrs() {

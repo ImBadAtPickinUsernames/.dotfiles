@@ -1,0 +1,128 @@
+# ~/.ticker.yaml
+show-summary: true
+show-tags: false
+show-fundamentals: false
+show-separator: true
+show-holdings: true
+interval: 60
+currency: EUR
+currency-summary-only: false
+sort: user
+watchlist:
+  - DHER.F # Delivery Hero
+  - AMD.F # AMD
+  - MWRD.PA # Amundi MSCI World
+  - XMME.DE # Xtrackers Emerging Markets
+  - MEUD.PA # Amundi STOXX Europe 600
+  - HJUA.F # Deka DWS Top Dividende Fond
+  - SYO7.F # Fond
+  - BTC-EUR # Bitcoin
+  - ETH-EUR # Etherium
+  - SOL-EUR # Solana
+  - LTC-EUR # Litecoin
+  - MATIC-EUR # Polygon
+lots:
+- symbol: DHER.F
+  quantity: 1
+  unit_cost: 1
+- symbol: AMD.F
+  quantity: 1
+  unit_cost: 1
+- symbol: MWRD.PA
+  quantity: 1
+  unit_cost: 1
+- symbol: XMME.DE
+  quantity: 1
+  unit_cost: 1
+- symbol: MEUD.PA
+  quantity: 1
+  unit_cost: 1
+- symbol: HJUA.F
+  quantity: 1
+  unit_cost: 1
+- symbol: SYO7.F
+  quantity: 1
+  unit_cost: 1
+- symbol: BTC-EUR
+  quantity: 1
+  unit_cost: 1
+- symbol: ETH-EUR
+  quantity: 1
+  unit_cost: 1
+- symbol: SOL-EUR
+  quantity: 1
+  unit_cost: 1
+- symbol: LTC-EUR
+  quantity: 1
+  unit_cost: 1
+- symbol: MATIC-EUR
+  quantity: 1
+  unit_cost: 1
+groups:
+  - name: Stocks
+    watchlist:
+      - DHER.F # Delivery Hero
+      - AMD.F # AMD
+    holdings:
+      - symbol: DHER.F
+        quantity: 1
+        unit_cost: 1
+      - symbol: AMD.F
+        quantity: 1
+        unit_cost: 1
+  - name: ETFs
+    watchlist:
+      - MWRD.PA # Amundi MSCI World
+      - XMME.DE # Xtrackers Emerging Markets
+      - MEUD.PA # Amundi STOXX Europe 600
+    holdings:
+      - symbol: MWRD.PA
+        quantity: 1
+        unit_cost: 1
+      - symbol: XMME.DE
+        quantity: 1
+        unit_cost: 1
+      - symbol: MEUD.PA
+        quantity: 1
+        unit_cost: 1
+  - name: Fonds
+    watchlist:
+      - HJUA.F # Deka DWS Top Dividende Fond
+      - SYO7.F # Fond
+    holdings:
+      - symbol: HJUA.F
+        quantity: 1
+        unit_cost: 1
+      - symbol: SYO7.F
+        quantity: 1
+        unit_cost: 1
+  - name: crypto
+    watchlist:
+      - BTC-EUR # Bitcoin
+      - ETH-EUR # Etherium
+      - SOL-EUR # Solana
+      - LTC-EUR # Litecoin
+      - MATIC-EUR # Polygon
+    holdings:
+      - symbol: BTC-EUR
+        quantity: 1
+        unit_cost: 1
+      - symbol: ETH-EUR
+        quantity: 1
+        unit_cost: 1
+      - symbol: SOL-EUR
+        quantity: 1
+        unit_cost: 1
+      - symbol: LTC-EUR
+        quantity: 1
+        unit_cost: 1
+      - symbol: MATIC-EUR
+        quantity: 1
+        unit_cost: 1
+colors: # Attempt at catppuccin theme
+  text: "#cdd6f4"
+  text-light: "#a6adc8"
+  text-label: "#a6adc8"
+  text-line: "#6c7086"
+  text-tag: "#000000"
+  background-tag: "#b4befe"

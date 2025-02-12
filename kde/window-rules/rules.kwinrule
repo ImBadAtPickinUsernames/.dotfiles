@@ -1,0 +1,66 @@
+[Discord 2nd Screen]
+Description=Discord 2nd Screen
+maximizehoriz=true
+maximizehorizrule=3
+maximizevert=true
+maximizevertrule=3
+position=2560,360
+positionrule=3
+size=1920,1047
+sizerule=3
+wmclass=discord
+wmclassmatch=1
+
+[Spotify 2nd screen]
+Description=Spotify 2nd screen
+maximizehoriz=true
+maximizehorizrule=3
+maximizevert=true
+maximizevertrule=3
+position=2560,360
+positionrule=3
+size=1920,1047
+sizerule=3
+wmclass=Spotify
+wmclasscomplete=true
+wmclassmatch=1
+
+[Thunderbird 2nd screen]
+Description=Thunderbird 2nd screen
+maximizehoriz=true
+maximizehorizrule=3
+maximizevert=true
+maximizevertrule=3
+position=2560,360
+positionrule=3
+size=1920,1047
+sizerule=3
+wmclass=thunderbird
+wmclassmatch=1
+
+[Ticker 2nd screen]
+Description=Ticker 2nd screen
+ignoregeometry=true
+ignoregeometryrule=3
+position=3527,445
+positionrule=3
+size=889,864
+sizerule=3
+title=ticker
+types=1
+wmclass=Ticker Ticker
+wmclasscomplete=true
+wmclassmatch=1
+
+[Tickrs 2nd screen]
+Description=Tickrs 2nd screen
+ignoregeometry=true
+ignoregeometryrule=3
+position=2620,443
+positionrule=3
+size=890,866
+sizerule=3
+title=tickrs
+wmclass=Tickrs Tickrs
+wmclasscomplete=true
+wmclassmatch=1

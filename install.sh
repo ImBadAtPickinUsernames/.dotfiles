@@ -60,12 +60,24 @@ install_standard_packages() {
 	else
 		echo "Cava wird nicht eingerichtet."
 	fi
+	if yay -Qs ticker > /dev/null ; then
+		echo "Ticker ist schon installiert."
+	else
+		yay -S ticker
+	fi
+	# Ticker einrichten
+	read -r -p "Möchtest du ticker einrichten? [J|N] " configresponse
+	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+		configure_ticker
+	else
+		echo "Tickrs wird nicht eingerichtet."
+	fi
 	if yay -Qs tickrs > /dev/null ; then
 		echo "Tickrs ist schon installiert."
 	else
 		yay -S tickrs
 	fi
-	# Cava einrichten
+	# Tickrs einrichten
 	read -r -p "Möchtest du tickrs einrichten? [J|N] " configresponse
 	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 		configure_tickrs
@@ -310,6 +322,16 @@ configure_cava() {
 		mkdir "$HOME/.config/cava"
 	fi
 	ln -s -f "$HOME/.dotfiles/.config/cava/config" "$HOME/.config/cava/"
+	echo "Fertig."
+}
+
+configure_ticker() {
+	echo "Erstelle Symlinks..."
+	if ! [ -d "$HOME/.config/ticker" ]; then
+		mkdir "$HOME/.config/ticker"
+	fi
+	# ln -s -f "$HOME/.dotfiles/.config/ticker/.ticker.yaml" "$HOME/.config/ticker/.ticker.yaml"
+	cp "$HOME/.dotfiles/.config/ticker/.ticker.yaml" "$HOME/.config/ticker/"
 	echo "Fertig."
 }
 

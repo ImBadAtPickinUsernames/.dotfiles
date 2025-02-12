@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Tickrs
+Comment=Launch Tickrs in Kitty
+Exec=/usr/bin/kitty --class Tickrs -e tickrs
+Icon=kitty
+Terminal=false
+StartupNotify=false
