@@ -1,272 +1,145 @@
 #!/bin/bash
 
+install_package() {
+  local package="$1"
+
+  # Ausnahme für "code": Installiere es immer, da aus irgendeinem Grund nicht erkannt wird dass es noch nicht installiert ist
+  if [[ "$package" == "code" ]]; then
+    echo "Installiere $package..."
+    yay -S --save --answerclean N --answerdiff N "$package" || { echo "Fehler bei der Installation von $package" >&2; return 1; }
+  elif ! yay -Qs "$package" > /dev/null 2>&1; then
+    echo "Installiere $package..."
+    yay -S --save --answerclean N --answerdiff N "$package" || { echo "Fehler bei der Installation von $package" >&2; return 1; }
+  else
+    echo "$package ist bereits installiert."
+  fi
+
+  local config_function="configure_${package//-/_}"
+  if [[ -n "$(command -v "$config_function")" ]]; then
+    read -r -p "Möchtest du $package einrichten? [J|N] " configresponse
+    if [[ "$configresponse" =~ ^(j|Ja|J)$ ]]; then
+      "$config_function" || { echo "Fehler bei der Konfiguration von $package" >&2; return 1; }
+    else
+      echo "$package wird nicht eingerichtet."
+    fi
+  fi
+}
+
 install_basics() {
-	yay --save --answerclean N --answerdiff N
-	if yay -Qs kitty > /dev/null ; then
-		echo "Kitty ist schon installiert."
-	else
-		yay -S kitty
-	fi
-	configure_kitty
-	if yay -Qs fastfetch > /dev/null ; then
-		echo "Fastfetch ist schon installiert."
-	else
-		yay -S fastfetch
-	fi
-	configure_fastfetch
-	if yay -Qs btop > /dev/null ; then
-		echo "btop ist schon installiert."
-	else
-		yay -S btop
-	fi
-	configure_btop
-	# Muss neu installiert werden weil die Commandline sonst nicht funktioniert
-	yay -S code
-	configure_vscode
-	if yay -Qs firefox > /dev/null ; then
-		echo "Firefox ist schon installiert."
-	else
-		yay -S firefox
-	fi
-	if yay -Qs vim > /dev/null ; then
-		echo "Vim ist schon installiert."
-	else
-		yay -S vim
-	fi
-	if yay -Qs neovim > /dev/null ; then
-		echo "Neovim ist schon installiert."
-	else
-		yay -S neovim
-	fi
-	if yay -Qs vim-plug > /dev/null ; then
-		echo "vim-plug ist schon installiert."
-	else
-		yay -S vim-plug
-	fi
-	configure_neovim
+  local packages=(
+    kitty
+    fastfetch
+    btop
+    code
+    firefox
+    vim
+    neovim
+    vim-plug
+  )
+
+  for package in "${packages[@]}"; do
+    install_package "$package" || return 1 # Fehlerbehandlung: Wenn die Installation eines Pakets fehlschlägt, wird die Funktion beendet.
+  done
 }
 
 install_standard_packages() {
-	yay --save --answerclean N --answerdiff N
-	if yay -Qs cava > /dev/null ; then
-		echo "cava ist schon installiert."
-	else
-		yay -S cava
-	fi
-	# Cava einrichten
-	read -r -p "Möchtest du cava einrichten? [J|N] " configresponse
-	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-		configure_cava
-	else
-		echo "Cava wird nicht eingerichtet."
-	fi
-	if yay -Qs ticker > /dev/null ; then
-		echo "Ticker ist schon installiert."
-	else
-		yay -S ticker
-	fi
-	# Ticker einrichten
-	read -r -p "Möchtest du ticker einrichten? [J|N] " configresponse
-	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-		configure_ticker
-	else
-		echo "Tickrs wird nicht eingerichtet."
-	fi
-	if yay -Qs tickrs > /dev/null ; then
-		echo "Tickrs ist schon installiert."
-	else
-		yay -S tickrs
-	fi
-	# Tickrs einrichten
-	read -r -p "Möchtest du tickrs einrichten? [J|N] " configresponse
-	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-		configure_tickrs
-	else
-		echo "Tickrs wird nicht eingerichtet."
-	fi
-	if yay -Qs spotify > /dev/null ; then
-		echo "Spotify ist schon installiert."
-	else
-		yay -S spotify
-	fi
-	if yay -Qs spicetify-cli > /dev/null ; then
-		echo "Spicetify ist schon installiert."
-	else
-		yay -S spicetify-cli
-	fi
-	# Spotify einrichten
-	read -r -p "Möchtest du Spicetify einrichten? [J|N] " configresponse
-	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-		configure_spotify
-	else
-		echo "Spicetify wird nicht eingerichtet."
-	fi
-	if yay -Qs discord > /dev/null ; then
-		echo "Discord ist schon installiert."
-	else
-		yay -S discord
-	fi
-	if yay -Qs betterdiscordctl > /dev/null ; then
-		echo "BetterDiscord ist schon installiert."
-	else
-		yay -S betterdiscordctl
-	fi
-	# Discord einrichten
-	read -r -p "Möchtest du BetterDiscord einrichten? [J|N] " configresponse
-	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-		configure_discord
-	else
-		echo "BetterDiscord wird nicht eingerichtet."
-	fi
-	if yay -Qs proton-vpn-gtk-app > /dev/null ; then
-		echo "ProtonVPN ist schon installiert."
-	else
-		yay -S proton-vpn-gtk-app
-	fi
-	# Bei Nvidia Problemen mit Variable WEBKIT_DISABLE_COMPOSITING_MODE=1 starten
-	# -> WEBKIT_DISABLE_COMPOSITING_MODE=1 foliate
-	if yay -Qs foliate > /dev/null ; then
-		echo "Foliate ist schon installiert."
-	else
-		yay -S foliate
-	fi
-	# Foliate einrichten
-	read -r -p "Möchtest du Foliate einrichten? [J|N] " configresponse
-	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-		configure_foliate
-	else
-		echo "Foliate wird nicht eingerichtet."
-	fi
-	if yay -Qs remmina > /dev/null ; then
-		echo "Remmina ist schon installiert."
-	else
-		yay -S remmina
-	fi
-	if yay -Qs freerdp > /dev/null ; then
-		yay -S freerdp
-	else
-		echo "FreeRDP ist schon installiert."
-	fi
-	if yay -Qs pinta > /dev/null ; then
-		echo "Pinta ist schon installiert."
-	else
-		yay -S pinta
-	fi
-	if yay -Qs bitwarden > /dev/null ; then
-		echo "Bitwarden ist schon installiert."
-	else
-		yay -S bitwarden
-	fi
-	if yay -Qs geckodriver > /dev/null ; then
-		echo "Geckodriver ist schon installiert."
-	else
-		yay -S geckodriver
-	fi
-	if yay -Qs thunderbird > /dev/null ; then
-		echo "Thunderbird ist schon installiert."
-	else
-		yay -S thunderbird
-	fi
-	if yay -Qs pycharm-community-edition > /dev/null ; then
-		echo "PyCharm ist schon installiert."
-	else
-		yay -S pycharm-community-edition
-	fi
-	if yay -Qs android-studio > /dev/null ; then
-		echo "Android Studio ist schon installiert."
-	else
-		yay -S android-studio
-	fi
-	if yay -Qs libreoffice-still > /dev/null ; then
-		echo "Libre Office ist schon installiert."
-	else
-		yay -S libreoffice-still
-	fi
-	if yay -Qs libreoffice-still-de > /dev/null ; then
-		echo "Sprache Deutsch für Libre Office ist schon installiert."
-	else
-		yay -S libreoffice-still-de
-	fi
-	if yay -Qs virtualbox > /dev/null ; then
-		echo "VirtualBox ist schon installiert."
-	else
-		yay -S virtualbox
-	fi
-	if yay -Qs virtualbox-guest-iso > /dev/null ; then
-		echo "virtualbox-guest-iso ist schon installiert."
-	else
-		yay -S virtualbox-guest-iso
-	fi
-	if yay -Qs virtualbox-host-dkms > /dev/null ; then
-		echo "virtualbox-host-dkms ist schon installiert."
-	else
-		yay -S virtualbox-host-dkms
-	fi
-	if yay -Qs lmstudio > /dev/null ; then
-		echo "LMStudio ist schon installiert."
-	else
-		yay -S lmstudio
-	fi
-	: ' Verschiebe Kommentar um Packages auszuschließen
-	'
+  local packages=(
+    cava
+	tickrs
+	ticker
+    spotify
+    spicetify-cli
+    discord
+    betterdiscordctl
+    proton-vpn-gtk-app
+    foliate
+    remmina
+    freerdp
+    pinta
+    bitwarden
+    geckodriver
+    thunderbird
+    pycharm-community-edition
+    android-studio
+    libreoffice-still
+    libreoffice-still-de
+    virtualbox
+    virtualbox-guest-iso
+    virtualbox-host-dkms
+	lmstudio
+  )
+
+  for package in "${packages[@]}"; do
+    install_package "$package" || return 1 # Fehlerbehandlung: Wenn die Installation eines Pakets fehlschlägt, wird die Funktion beendet.
+  done
 }
 
 install_fonts() {
-	if yay -Qs ttf-roboto > /dev/null ; then
-		echo "Roboto ist schon installiert."
-	else
-		yay -S ttf-roboto
-	fi
-	if yay -Qs ttf-jetbrains-mono-nerd > /dev/null ; then
-		echo "JetBrains Nerd Font ist schon installiert."
-	else
-		yay -S ttf-jetbrains-mono-nerd
-	fi
+  local packages=(
+    ttf-roboto
+    ttf-jetbrains-mono-nerd
+  )
+
+  for package in "${packages[@]}"; do
+    install_package "$package" || return 1
+  done
 }
 
 install_cli_fun() {
-	if yay -Qs pipes.sh > /dev/null ; then
-		echo "pipes.sh ist schon installiert."
-	else
-		yay -S pipes.sh
-	fi
-	if yay -Qs cbonsai > /dev/null ; then
-		echo "cbonsai ist schon installiert."
-	else
-		yay -S cbonsai
-	fi
-	if yay -Qs rainfall > /dev/null ; then
-		echo "rainfall ist schon installiert."
-	else
-		yay -S rainfall
-	fi
+  local packages=(
+    pipes.sh
+    cbonsai
+    rainfall
+  )
+
+  for package in "${packages[@]}"; do
+    install_package "$package" || return 1
+  done
 }
 
 install_vs_code_extensions() {
-	code --install-extension aaron-bond.better-comments
-	code --install-extension catppuccin.catppuccin-vsc
-	code --install-extension catppuccin.catppuccin-vsc-icons
-	code --install-extension donjayamanne.githistory
-	code --install-extension esbenp.prettier-vscode
-	code --install-extension mechatroner.rainbow-csv
-	code --install-extension ms-ceintl.vscode-language-pack-de
-	code --install-extension ms-python.debugpy
-	code --install-extension ms-python.python
-	code --install-extension naumovs.color-highlight
-	code --install-extension yzhang.markdown-all-in-one
+  local extensions=(
+    aaron-bond.better-comments
+    catppuccin.catppuccin-vsc
+    catppuccin.catppuccin-vsc-icons
+    donjayamanne.githistory
+    esbenp.prettier-vscode
+    mechatroner.rainbow-csv
+    ms-ceintl.vscode-language-pack-de
+    ms-python.debugpy
+    ms-python.python
+    naumovs.color-highlight
+    yzhang.markdown-all-in-one
+  )
+
+  for extension in "${extensions[@]}"; do
+    echo "Installiere VS Code Extension: $extension"
+    code --install-extension "$extension" || { echo "Fehler bei der Installation von $extension" >&2; return 1; }
+  done
 }
 
-configure_neovim() {
+configure_btop() {
 	echo "Erstelle Symlinks..."
-	if ! [ -d "$HOME/.config/nvim" ]; then
-		mkdir "$HOME/.config/nvim"
+	if ! [ -d "$HOME/.config/btop" ]; then
+		mkdir "$HOME/.config/btop"
 	fi
-	ln -s -f "$HOME/.dotfiles/.config/nvim/init.vim" "$HOME/.config/nvim/init.vim"
-	echo "Führe beim ersten Start von neovim :PlugInstall aus, damit das Theme angewendet wird."
+	if ! [ -d "$HOME/.config/btop/themes" ]; then
+		mkdir "$HOME/.config/btop/themes"
+	fi
+	ln -s -f "$HOME/.dotfiles/.config/btop/themes/catppuccin_mocha.theme" "$HOME/.config/btop/themes/catppuccin_mocha.theme"
 	echo "Fertig."
 }
 
-configure_vscode() {
+configure_cava() {
+	echo "Erstelle Symlinks..."
+	if ! [ -d "$HOME/.config/cava" ]; then
+		mkdir "$HOME/.config/cava"
+	fi
+	ln -s -f "$HOME/.dotfiles/.config/cava/config" "$HOME/.config/cava/"
+	echo "Fertig."
+}
+
+configure_code() {
 	install_vs_code_extensions
 	echo "Erstelle Symlinks..."
 	ln -s -f "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
@@ -274,12 +147,22 @@ configure_vscode() {
 	echo "Fertig."
 }
 
-configure_kitty() {
-	echo "Erstelle Symlinks..."
-	if ! [ -d "$HOME/.config/kitty" ]; then
-		mkdir "$HOME/.config/kitty"
+configure_discord() {
+	# Jetzt Discord öffnen und einloggen damit prefs file generiert wird
+	echo "Bitte Discord öffnen und einloggen damit die Einstellungs Datei von Discord generiert wird."
+	read -p "Drücke [Enter] damit es weitergeht."
+	betterdiscordctl install
+	if ! [ -d "$HOME/.config/BetterDiscord" ]; then
+		mkdir "$HOME/.config/BetterDiscord"
 	fi
-	ln -s -f "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+	if ! [ -d "$HOME/.config/BetterDiscord/data" ]; then
+		mkdir ".config/BetterDiscord/data"
+	fi
+	if ! [ -d "$HOME/.config/BetterDiscord/data/stable" ]; then
+		mkdir ".config/BetterDiscord/data/stable"
+	fi
+	echo "Erstelle Symlinks..."
+	ln -s -f "$HOME/.dotfiles/.config/BetterDiscord/data/stable/custom.css" "$HOME/.config/BetterDiscord/data/stable/custom.css"
 	echo "Fertig."
 }
 
@@ -304,29 +187,100 @@ configure_foliate() {
 	echo "Fertig."
 }
 
-configure_btop() {
+configure_kde() {
+  local icon_packages=(
+    papirus-icon-theme
+    papirus-folders-catppuccin-git
+  )
+
+  # Installiere Icon Packs
+  for package in "${icon_packages[@]}"; do
+    install_package "$package" || return 1
+  done
+
+  # Konfiguriere Ordnerfarben (mit Fehlerprüfung)
+  echo "Setze Ordnerfarben mit papirus-folders..."
+  papirus-folders -t Papirus-Dark -C cat-mocha-lavender || { echo "Fehler bei der Konfiguration der Ordnerfarben" >&2; return 1; }
+
+  # KDE Konfiguration
+  read -r -p "Möchtest du KDE per Konsave einrichten? [J|N] " configresponse
+  if [[ "$configresponse" =~ ^(j|Ja|J)$ ]]; then
+    konsave_install || return 1 # Fehlerbehandlung hinzufügen
+  else
+    catppuccin_manual_install || return 1 # Fehlerbehandlung hinzufügen
+  fi
+
+  echo "KDE Konfiguration abgeschlossen."
+}
+
+configure_kitty() {
 	echo "Erstelle Symlinks..."
-	if ! [ -d "$HOME/.config/btop" ]; then
-		mkdir "$HOME/.config/btop"
+	if ! [ -d "$HOME/.config/kitty" ]; then
+		mkdir "$HOME/.config/kitty"
 	fi
-	if ! [ -d "$HOME/.config/btop/themes" ]; then
-		mkdir "$HOME/.config/btop/themes"
-	fi
-	ln -s -f "$HOME/.dotfiles/.config/btop/themes/catppuccin_mocha.theme" "$HOME/.config/btop/themes/catppuccin_mocha.theme"
+	ln -s -f "$HOME/.dotfiles/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
 	echo "Fertig."
 }
 
-configure_cava() {
+configure_neovim() {
 	echo "Erstelle Symlinks..."
-	if ! [ -d "$HOME/.config/cava" ]; then
-		mkdir "$HOME/.config/cava"
+	if ! [ -d "$HOME/.config/nvim" ]; then
+		mkdir "$HOME/.config/nvim"
 	fi
-	ln -s -f "$HOME/.dotfiles/.config/cava/config" "$HOME/.config/cava/"
+	ln -s -f "$HOME/.dotfiles/.config/nvim/init.vim" "$HOME/.config/nvim/init.vim"
+	echo "Führe beim ersten Start von neovim :PlugInstall aus, damit das Theme angewendet wird."
 	echo "Fertig."
+}
+
+configure_sddm() {
+  local sddm_config_dir="/etc/sddm.conf.d/"
+  local sddm_config_file="$sddm_config_dir/sddm.conf"
+  local sddm_theme_package="sddm-theme-catppuccin"
+
+  # Installiere benötigte Pakete
+  install_package qt6-svg || return 1
+  install_package qt6-declarative || return 1
+  install_package "$sddm_theme_package" || return 1
+
+  # Erstelle Konfigurationsordner, falls er nicht existiert
+  if [[ ! -d "$sddm_config_dir" ]]; then
+    echo "Erstelle Ordner für SDDM Konfig: $sddm_config_dir"
+    sudo mkdir -p "$sddm_config_dir" || { echo "Fehler beim Erstellen des Ordners" >&2; return 1; } # -p erstellt bei Bedarf übergeordnete Ordner
+  fi
+
+  # Lösche vorhandene Konfigurationen (optional, aber sicherer)
+  if [[ -n "$(ls -A "$sddm_config_dir")" ]]; then
+    echo "Alte Konfig wird gelöscht: $sddm_config_dir/*"
+    sudo rm -f "$sddm_config_dir/*" || { echo "Fehler beim Löschen der alten Konfiguration" >&2; return 1; } # -f erzwingt das Löschen
+  fi
+
+  # Symlink erstellen (mit Fehlerprüfung)
+  echo "Erstelle Symlink: $HOME/.dotfiles/sddm/sddm.conf -> $sddm_config_file"
+  sudo ln -sf "$HOME/.dotfiles/sddm/sddm.conf" "$sddm_config_file" || { echo "Fehler beim Erstellen des Symlinks" >&2; return 1; } # -s erstellt symbolischen Link, -f erzwingt das Ersetzen
+
+  echo "SDDM Konfiguration abgeschlossen."
+}
+
+configure_spotify() {
+	# Spotify vorbereiten
+	sudo chmod a+wr /opt/spotify
+	sudo chmod a+wr /opt/spotify/Apps -R
+	# Theme installieren
+	install_spicetify_text_catppuccin
+	# Erstelle Symlinks
+	echo "Erstelle Symlinks..."
+	ln -s -f "$HOME/.dotfiles/.config/spicetify/config-xpui.ini" "$HOME/.config/spicetify/config-xpui.ini"
+	ln -s -f "$HOME/.dotfiles/.config/spicetify/Themes/text/color.ini" "$HOME/.config/spicetify/Themes/text/color.ini"
+	ln -s -f "$HOME/.dotfiles/.config/spicetify/Themes/text/user.css" "$HOME/.config/spicetify/Themes/text/user.css"
+	echo "Fertig."
+	# Wende neue Config an
+	spicetify restore 
+	spicetify backup 
+	spicetify apply
 }
 
 configure_ticker() {
-	echo "Erstelle Symlinks..."
+	echo "Kopiere Konfig..."
 	if ! [ -d "$HOME/.config/ticker" ]; then
 		mkdir "$HOME/.config/ticker"
 	fi
@@ -353,24 +307,6 @@ create_basic_symlinks() {
 	echo "Fertig."
 }
 
-configure_spotify() {
-	# Spotify vorbereiten
-	sudo chmod a+wr /opt/spotify
-	sudo chmod a+wr /opt/spotify/Apps -R
-	# Theme installieren
-	install_spicetify_text_catppuccin
-	# Erstelle Symlinks
-	echo "Erstelle Symlinks..."
-	ln -s -f "$HOME/.dotfiles/.config/spicetify/config-xpui.ini" "$HOME/.config/spicetify/config-xpui.ini"
-	ln -s -f "$HOME/.dotfiles/.config/spicetify/Themes/text/color.ini" "$HOME/.config/spicetify/Themes/text/color.ini"
-	ln -s -f "$HOME/.dotfiles/.config/spicetify/Themes/text/user.css" "$HOME/.config/spicetify/Themes/text/user.css"
-	echo "Fertig."
-	# Wende neue Config an
-	spicetify restore 
-	spicetify backup 
-	spicetify apply
-}
-
 install_spicetify_text_catppuccin() {
 	# Hole spicetify-themes
 	git clone --depth=1 https://github.com/spicetify/spicetify-themes.git 
@@ -388,25 +324,6 @@ install_spicetify_text_catppuccin() {
 	# Warte auf Eingabe
 	spicetify backup 
 	spicetify apply
-}
-
-configure_discord() {
-	# Jetzt Discord öffnen und einloggen damit prefs file generiert wird
-	echo "Bitte Discord öffnen und einloggen damit die Einstellungs Datei von Discord generiert wird."
-	read -p "Drücke [Enter] damit es weitergeht."
-	betterdiscordctl install
-	if ! [ -d "$HOME/.config/BetterDiscord" ]; then
-		mkdir "$HOME/.config/BetterDiscord"
-	fi
-	if ! [ -d "$HOME/.config/BetterDiscord/data" ]; then
-		mkdir ".config/BetterDiscord/data"
-	fi
-	if ! [ -d "$HOME/.config/BetterDiscord/data/stable" ]; then
-		mkdir ".config/BetterDiscord/data/stable"
-	fi
-	echo "Erstelle Symlinks..."
-	ln -s -f "$HOME/.dotfiles/.config/BetterDiscord/data/stable/custom.css" "$HOME/.config/BetterDiscord/data/stable/custom.css"
-	echo "Fertig."
 }
 
 download_wallpapers() {
@@ -442,62 +359,6 @@ delete_kde_bloat() {
 	fi
 }
 
-configure_kde() {
-	# Installiere Icon Pack
-	if yay -Qs papirus-icon-theme > /dev/null ; then
-		echo "Papirus ist schon installiert."
-	else
-		yay -S papirus-icon-theme
-	fi
-	if yay -Qs papirus-folders-catppuccin-git > /dev/null ; then
-		echo "papirus-folders-catppuccin-git ist schon installiert."
-	else
-		yay -S papirus-folders-catppuccin-git
-	fi
-	papirus-folders -t Papirus-Dark -C cat-mocha-lavender
-	# KDE Konfig
-	read -r -p "Möchtest du KDE per konsave einrichten? [J|N] " configresponse
-	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-		konsave_install
-	else
-    	catppuccin_manual_install
-	fi
-}
-
-configure_sddm() {
-	# Braucht man für SSDM catppuccin Theme
-	if yay -Qs qt6-svg > /dev/null ; then
-		echo "qt6-svg ist schon installiert."
-	else
-		yay -S qt6-svg
-	fi
-	if yay -Qs qt6-declarative > /dev/null ; then
-		echo "qt6-declarative ist schon installiert."
-	else
-		yay -S qt6-declarative
-	fi
-	# Hole Theme
-	echo "Downloade neuesten Catppuccin SDDM Release ..."
-    if yay -Qs sddm-theme-catppuccin > /dev/null ; then
-		echo "sddm-theme-catppuccin ist schon installiert."
-	else
-		yay -S sddm-theme-catppuccin
-	fi
-	# Erstelle Ordner für Konfig
-	if ! [ -d "/etc/sddm.conf.d/" ]; then
-		echo "Erstelle Ordner für SDDM Konfig"
-		sudo mkdir "/etc/sddm.conf.d/"
-	fi
-	# Wenn Konfig bereits existiert ersetze alte konfig
-	if ! [ -z "$(ls -A /etc/sddm.conf.d)" ]; then
-		echo "Alte Konfig wird gelöscht und ersetzt"
-		sudo rm /etc/sddm.conf.d/*
-	fi
-	echo "Erstelle Symlinks..."
-	sudo ln -s -f "$HOME/.dotfiles/sddm/sddm.conf" "/etc/sddm.conf.d/"
-	echo "Fertig."
-}
-
 konsave_install() {
 	# Installiere konsave
 	if yay -Qs konsave > /dev/null ; then
@@ -526,6 +387,32 @@ catppuccin_manual_install() {
 	./install.sh
 	ln -s "$HOME/.local/share/icons/" "$HOME/.icons"
 	cd
+}
+
+colorize_pacman() {
+  # Pfad zur pacman.conf-Datei
+  local pacman_conf="/etc/pacman.conf"
+
+  # Überprüfen, ob die Datei existiert
+  if [[ ! -f "$pacman_conf" ]]; then
+    echo "Fehler: $pacman_conf nicht gefunden." >&2
+    return 1
+  fi
+
+  # Überprüfen, ob 'Color' bereits aktiviert ist
+  if grep -q "^Color" "$pacman_conf"; then
+    echo "Farbe in $pacman_conf ist bereits aktiviert."
+    return 0
+  fi
+
+  # Zeile mit '#Color' suchen und ersetzen
+  if sudo sed -i 's/^#Color/Color/' "$pacman_conf"; then
+    echo "Farbe in $pacman_conf erfolgreich aktiviert."
+    return 0
+  else
+    echo "Fehler: Farbe in $pacman_conf konnte nicht aktiviert werden." >&2
+    return 1
+  fi
 }
 
 # Prüfe ob yay istalliert ist
@@ -624,6 +511,14 @@ if [[ $configresponse =~ ^(j|Ja|J) ]]; then
 	configure_kde
 else
 	echo "KDE wird nicht eingerichtet."
+fi
+
+# Pacman Farben verpassen
+read -r -p "Möchtest du pacman Farben verpassen? [J|N] " configresponse
+if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+	colorize_pacman
+else
+	echo "pacman bleibt langweilig."
 fi
 
 echo "Fertig."
