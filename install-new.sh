@@ -3,7 +3,11 @@
 install_package() {
   local package="$1"
 
-  if ! yay -Qs "$package" > /dev/null 2>&1; then
+  # Ausnahme für "code": Installiere es immer, da aus irgendeinem Grund nicht erkannt wird dass es noch nicht installiert ist
+  if [[ "$package" == "code" ]]; then
+    echo "Installiere $package..."
+    yay -S --save --answerclean N --answerdiff N "$package" || { echo "Fehler bei der Installation von $package" >&2; return 1; }
+  elif ! yay -Qs "$package" > /dev/null 2>&1; then
     echo "Installiere $package..."
     yay -S --save --answerclean N --answerdiff N "$package" || { echo "Fehler bei der Installation von $package" >&2; return 1; }
   else
@@ -132,6 +136,14 @@ configure_cava() {
 		mkdir "$HOME/.config/cava"
 	fi
 	ln -s -f "$HOME/.dotfiles/.config/cava/config" "$HOME/.config/cava/"
+	echo "Fertig."
+}
+
+configure_code() {
+	install_vs_code_extensions
+	echo "Erstelle Symlinks..."
+	ln -s -f "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
+	ln -s -f "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
 	echo "Fertig."
 }
 
@@ -286,14 +298,6 @@ configure_tickrs() {
 	echo "Fertig."
 }
 
-configure_vscode() {
-	install_vs_code_extensions
-	echo "Erstelle Symlinks..."
-	ln -s -f "$HOME/.dotfiles/.config/Code - OSS/User/settings.json" "$HOME/.config/Code - OSS/User/settings.json"
-	ln -s -f "$HOME/.dotfiles/.config/Code - OSS/User/keybindings.json" "$HOME/.config/Code - OSS/User/keybindings.json"
-	echo "Fertig."
-}
-
 create_basic_symlinks() {
 	echo "Erstelle Symlinks..."
 	# Git
@@ -402,7 +406,7 @@ colorize_pacman() {
   fi
 
   # Zeile mit '#Color' suchen und ersetzen
-  if sed -i 's/^#Color/Color/' "$pacman_conf"; then
+  if sudo sed -i 's/^#Color/Color/' "$pacman_conf"; then
     echo "Farbe in $pacman_conf erfolgreich aktiviert."
     return 0
   else
