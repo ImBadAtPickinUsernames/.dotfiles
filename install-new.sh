@@ -280,7 +280,7 @@ configure_spotify() {
 }
 
 configure_ticker() {
-	echo "Erstelle Symlinks..."
+	echo "Kopiere Konfig..."
 	if ! [ -d "$HOME/.config/ticker" ]; then
 		mkdir "$HOME/.config/ticker"
 	fi
