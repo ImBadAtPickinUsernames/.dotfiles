@@ -2,10 +2,10 @@
 # List of ticker symbols to start app with
 symbols:
   - DHER.F # Delivery Hero
-  - AMD.F # AMD
   - MWRD.PA # Amundi MSCI World
   - XMME.DE # Xtrackers Emerging Markets
   - MEUD.PA # Amundi STOXX Europe 600
+  - FASWC.DE # HANetf Future of Defence
   - HJUA.F # Deka DWS Top Dividende Fond
   - SYO7.F # Fond
   - BTC-EUR # Bitcoin
@@ -29,10 +29,10 @@ symbols:
 update_interval: 60
 
 # Enable pre / post market hours for graphs
-#enable_pre_post: true
+enable_pre_post: true
 
 # Hide help icon in top right
-#hide_help: true
+hide_help: true
 
 # Hide previous close line on 1D chart
 #hide_prev_close: true

@@ -11,6 +11,20 @@ sizerule=3
 wmclass=discord
 wmclassmatch=1
 
+[Kitty]
+Description=Kitty
+ignoregeometry=true
+ignoregeometryrule=3
+position=840,270
+positionrule=3
+size=890,580
+sizerule=3
+title=~
+types=1
+wmclass=kitty kitty
+wmclasscomplete=true
+wmclassmatch=1
+
 [Spotify 2nd screen]
 Description=Spotify 2nd screen
 maximizehoriz=true

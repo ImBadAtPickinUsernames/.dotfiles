@@ -3,7 +3,7 @@
 install_package() {
   local package="$1"
 
-  # Ausnahme für "code": Installiere es immer, da aus irgendeinem Grund nicht erkannt wird dass es noch nicht installiert ist
+  # Ausnahme für "code": Installiere es immer, da aus irgendeinem Grund nicht erkannt wird, dass es noch nicht installiert ist
   if [[ "$package" == "code" ]]; then
     echo "Installiere $package..."
     yay -S --save --answerclean N --answerdiff N "$package" || { echo "Fehler bei der Installation von $package" >&2; return 1; }
