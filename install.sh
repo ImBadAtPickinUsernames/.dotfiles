@@ -32,6 +32,7 @@ install_basics() {
     btop
     code
     firefox
+	librefox-bin
     vim
     neovim
     vim-plug
