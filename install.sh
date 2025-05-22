@@ -36,6 +36,7 @@ install_basics() {
     vim
     neovim
     vim-plug
+	partitionmanager
   )
 
   for package in "${packages[@]}"; do
@@ -68,6 +69,8 @@ install_standard_packages() {
     virtualbox-guest-iso
     virtualbox-host-dkms
 	lmstudio
+	steam
+	heroic-games-launcher
   )
 
   for package in "${packages[@]}"; do
