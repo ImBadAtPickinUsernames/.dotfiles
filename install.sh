@@ -71,6 +71,11 @@ install_standard_packages() {
 	lmstudio
 	steam
 	heroic-games-launcher
+	# Eventuell blockt KDE die Ports von kdeconnect
+	# sudo firewall-cmd --zone=home --add-port=1714-1764/tcp --permanent
+	# sudo firewall-cmd --zone=home --add-port=1714-1764/udp --permanent
+	# sudo firewall-cmd --reload
+	kdeconnect
   )
 
   for package in "${packages[@]}"; do
