@@ -33,9 +33,9 @@ install_basics() {
     code
     firefox
 	librefox-bin
-    vim
-    neovim
-    vim-plug
+    #vim
+    #neovim
+    #vim-plug
 	partitionmanager
   )
 
@@ -59,18 +59,15 @@ install_standard_packages() {
     freerdp
     pinta
     bitwarden
-    geckodriver
     thunderbird
     pycharm-community-edition
     android-studio
     libreoffice-still
     libreoffice-still-de
-    virtualbox
-    virtualbox-guest-iso
-    virtualbox-host-dkms
 	lmstudio
 	steam
 	heroic-games-launcher
+    #geckodriver
 	# Eventuell blockt KDE die Ports von kdeconnect
 	# sudo firewall-cmd --zone=home --add-port=1714-1764/tcp --permanent
 	# sudo firewall-cmd --zone=home --add-port=1714-1764/udp --permanent
@@ -424,23 +421,67 @@ colorize_pacman() {
   fi
 }
 
-# Prüfe ob yay istalliert ist
-ISYAY=/sbin/yay
-if [ -f "$ISYAY" ]; then 
-    echo -e "yay wurde gefunden, weiter geht's.\n"
-    yay -Suy
-else 
-    echo -e "yay wurde nicht gefunden, bitte installiere yay.\n"
-	# Wichtige Programme installieren
-	read -r -p "Möchtest du versuchen yay zu installieren (experimentell)? [J|N] " configresponse
-	if [[ $configresponse =~ ^(j|Ja|J) ]]; then
-		sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
-		cd
-	else
-		echo "yay wurde nicht installiert. Beende Script."
-    	exit 
+uncomment_multilib_pacman() {
+  local pacman_conf="/etc/pacman.conf"
+
+  if [[ ! -f "$pacman_conf" ]]; then
+    echo "Fehler: $pacman_conf nicht gefunden. Bist du sicher, dass du ein Arch-basiertes System verwendest?"
+    return 1
+  fi
+
+  if ! grep -qE "^\s*\[multilib\]" "$pacman_conf" && ! grep -qE "^\s*Include\s*=\s*/etc/pacman.d/mirrorlist" "$pacman_conf"; then
+    echo "Es sieht so aus, als ob der Abschnitt [multilib] oder die 'Include'-Zeile fehlen oder stark verändert wurden."
+    echo "Bitte überprüfe deine $pacman_conf manuell."
+    return 1
+  fi
+
+  # Check if multilib is already uncommented
+  if grep -qE "^\s*\[multilib\]" "$pacman_conf" && grep -qE "^\s*Include\s*=\s*/etc/pacman.d/mirrorlist" "$pacman_conf"; then
+    echo "Die [multilib]-Unterstützung scheint in $pacman_conf bereits auskommentiert zu sein."
+    return 0
+  fi
+
+  echo "Kommentiere die [multilib]-Unterstützung in $pacman_conf aus..."
+
+  # Uncomment [multilib] section header
+  sudo sed -i '/#\[multilib\]/{s/^#//}' "$pacman_conf"
+
+  # Uncomment the Include line within the [multilib] section
+  sudo sed -i '/\[multilib\]/,/\[/{//!s/^#Include/Include/}' "$pacman_conf"
+
+  if grep -qE "^\s*\[multilib\]" "$pacman_conf" && grep -qE "^\s*Include\s*=\s*/etc/pacman.d/mirrorlist" "$pacman_conf"; then
+    echo "[multilib]-Unterstützung erfolgreich auskommentiert."
+    echo "Denke daran, 'sudo pacman -Sy' auszuführen, um deine Paketdatenbanken zu synchronisieren."
+  else
+    echo "Fehler beim Auskommentieren der [multilib]-Unterstützung. Bitte überprüfe $pacman_conf manuell."
+    return 1
+  fi
+}
+
+install_yay() {
+	ISYAY=/sbin/yay
+	if [ -f "$ISYAY" ]; then 
+		echo -e "yay wurde gefunden, weiter geht's.\n"
+		yay -Suy
+	else 
+		echo -e "yay wurde nicht gefunden, bitte installiere yay.\n"
+		# Wichtige Programme installieren
+		read -r -p "Möchtest du versuchen yay zu installieren (experimentell)? [J|N] " configresponse
+		if [[ $configresponse =~ ^(j|Ja|J) ]]; then
+			sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+			cd
+		else
+			echo "yay wurde nicht installiert. Beende Script."
+			exit 
+		fi
 	fi
-fi
+}
+
+# Prüfe ob yay istalliert ist und installiere es gegebenenfalls
+install_yay
+
+# Prüfe ob multilib support für pacman aktiv ist
+uncomment_multilib_pacman
 
 # Wichtige Programme installieren
 read -r -p "Möchtest du die wichtigsten Programme installieren? [J|N] " configresponse
